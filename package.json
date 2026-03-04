@@ -1,0 +1,56 @@
+{
+  "name": "talky-heads-sdk",
+  "version": "1.0.0",
+  "description": "React component library for animated talking-head avatars with real-time lip-sync",
+  "keywords": [
+    "react",
+    "avatar",
+    "talking-head",
+    "lip-sync",
+    "tts",
+    "text-to-speech",
+    "animation",
+    "elevenlabs"
+  ],
+  "author": "Talky Heads",
+  "license": "MIT",
+  "homepage": "https://talkyheads.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/talky-heads/talky-heads-sdk.git"
+  },
+  "bugs": {
+    "url": "https://github.com/talky-heads/talky-heads-sdk/issues"
+  },
+  "type": "module",
+  "main": "./dist/talky-heads-sdk.cjs.js",
+  "module": "./dist/talky-heads-sdk.es.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/talky-heads-sdk.es.js",
+      "require": "./dist/talky-heads-sdk.cjs.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./vite": {
+      "import": "./dist/vite-plugin.es.js",
+      "require": "./dist/vite-plugin.cjs.js",
+      "types": "./dist/vite-plugin.d.ts"
+    },
+    "./assets/*": "./assets/*"
+  },
+  "files": [
+    "dist",
+    "assets",
+    "README.md",
+    "LICENSE"
+  ],
+  "sideEffects": false,
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}

@@ -1,0 +1,10 @@
+export { TalkingHead } from "./components/TalkingHead";
+export type { TalkingHeadHandle, TalkingHeadProps, SpriteManifest } from "./components/TalkingHead";
+export { TalkingHeadWithTTS } from "./components/TalkingHeadWithTTS";
+export type { TalkingHeadWithTTSProps } from "./components/TalkingHeadWithTTS";
+export { useTTS } from "./tts/useTTS";
+export type { UseTTSReturn, UseTTSState } from "./tts/useTTS";
+export type { TTSConfig, TTSProvider, TTSResult, TTSFormat } from "./tts/types";
+export type { AvatarState } from "./lib/avatar";
+export { deriveAvatarState } from "./lib/avatar";
+export type { CharacterAlignment, EyeState, EyeSpriteFrame, EyeSpriteAtlasConfig, EyeDestRectPx } from "./lib/visemeTimeline";
