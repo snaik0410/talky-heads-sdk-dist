@@ -82,6 +82,8 @@ export type TalkingHeadCanvasProps = {
      */
     visemeMap?: VisemeMap;
     className?: string;
+    /** Inline styles applied to the root container. Use for explicit dimensions. */
+    style?: React.CSSProperties;
     /**
      * When true, all cross-frame blending and smoothing is disabled:
      * - ROI crossfade between viseme sprites is skipped (hard cuts between frames)
@@ -94,4 +96,4 @@ export type TalkingHeadCanvasProps = {
     /** Notify parent whenever critical assets (base + mouth atlases) finish loading. */
     onAssetsReady?: (ready: boolean) => void;
 };
-export declare function TalkingHeadCanvas({ baseImageUrl: baseImageUrlProp, restImageUrl: restImageUrlProp, restImageScale, shape, audioEl, visemeEvents, speaking, width: widthProp, height: heightProp, debug, atlas: atlasOverride, mouthDest: mouthDestOverride, overlays: overlaysProp, mouthSpeed: mouthSpeedProp, previewMouthIndex, onMouthIndexChange, eyeAtlas: eyeAtlasOverride, eyeDest: eyeDestOverride, eyeState: eyeStateOverride, eyeFrameIndex: eyeFrameIndexOverride, blinkEnabled, syncOffsetMs, onTick, visemeMap: visemeMapProp, className, disableBlending, onAssetsReady, }: TalkingHeadCanvasProps): import("react/jsx-runtime").JSX.Element;
+export declare function TalkingHeadCanvas({ baseImageUrl: baseImageUrlProp, restImageUrl: restImageUrlProp, restImageScale, shape, audioEl, visemeEvents, speaking, width: widthProp, height: heightProp, debug, atlas: atlasOverride, mouthDest: mouthDestOverride, overlays: overlaysProp, mouthSpeed: mouthSpeedProp, previewMouthIndex, onMouthIndexChange, eyeAtlas: eyeAtlasOverride, eyeDest: eyeDestOverride, eyeState: eyeStateOverride, eyeFrameIndex: eyeFrameIndexOverride, blinkEnabled, syncOffsetMs, onTick, visemeMap: visemeMapProp, className, style, disableBlending, onAssetsReady, }: TalkingHeadCanvasProps): import("react/jsx-runtime").JSX.Element;

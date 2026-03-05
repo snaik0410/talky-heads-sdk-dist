@@ -81,6 +81,8 @@ Copy-Item -Recurse node_modules\talky-heads-sdk\assets\avatars\Lucy public\avata
 | `shape` | `string` | `"square"` | `"circle"` or `"square"` |
 | `className` | `string` | `""` | CSS class |
 | `syncOffsetMs` | `number` | `0` | Fine-tune lip-sync timing (ms) |
+| `onSpeakingChange` | `(speaking: boolean) => void` | — | Callback when speaking starts/stops |
+| `onError` | `(error: string) => void` | — | Callback when avatar fails to load |
 
 ### Ref Methods
 

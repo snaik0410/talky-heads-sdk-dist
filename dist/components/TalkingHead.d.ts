@@ -130,5 +130,13 @@ export type TalkingHeadProps = {
     blinkEnabled?: boolean;
     /** Notify parent when the internal audio-driven speaking state changes. */
     onSpeakingChange?: (speaking: boolean) => void;
+    /** Called when an error occurs (e.g., failed to load avatar assets). */
+    onError?: (error: string) => void;
+    /**
+     * Inline styles applied to the root container. Use this to set explicit dimensions.
+     * The avatar canvas needs explicit width/height — CSS classes alone may not work.
+     * Example: style={{ width: 200, height: 200 }}
+     */
+    style?: React.CSSProperties;
 };
 export declare const TalkingHead: import("react").ForwardRefExoticComponent<TalkingHeadProps & import("react").RefAttributes<TalkingHeadHandle>>;

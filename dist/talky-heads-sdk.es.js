@@ -1,103 +1,103 @@
-import { jsx as Ee, jsxs as Xe } from "react/jsx-runtime";
-import { useRef as F, useState as q, useEffect as ye, useCallback as se, forwardRef as sn, useImperativeHandle as on } from "react";
-function Ct(e) {
+import { jsx as Me, jsxs as Ve } from "react/jsx-runtime";
+import { useRef as R, useState as q, useEffect as de, useCallback as ae, forwardRef as on, useImperativeHandle as an } from "react";
+function kt(e) {
   const n = Math.max(0, Math.min(1, e));
   return n * n * (3 - 2 * n);
 }
-const an = 60, cn = 80;
-function jt(e, n) {
+const cn = 60, ln = 80;
+function Zt(e, n) {
   if (!e.length) return 0;
-  let a = 0, c = e.length - 1;
+  let i = 0, c = e.length - 1;
   if (e[0].t > n) return 0;
   if (e[c].t <= n) return c;
-  for (; a + 1 < c; ) {
-    const i = a + c >> 1;
-    e[i].t <= n ? a = i : c = i;
+  for (; i + 1 < c; ) {
+    const a = i + c >> 1;
+    e[a].t <= n ? i = a : c = a;
   }
-  return a;
+  return i;
 }
-function ln(e, n) {
+function hn(e, n) {
   if (!e.length) return 0;
-  const a = an / 1e3, c = jt(e, n), i = e[c].t;
-  return c + 1 < e.length && e[c + 1].t - i < a && n < i + a, e[c].v;
+  const i = cn / 1e3, c = Zt(e, n), a = e[c].t;
+  return c + 1 < e.length && e[c + 1].t - a < i && n < a + i, e[c].v;
 }
-const hn = cn, un = 0.7;
-function dn(e, n, a = {}) {
-  const c = a.blendWindowMs ?? hn, i = a.coarticulationPrimary ?? un, h = c / 1e3;
+const un = ln, dn = 0.7;
+function mn(e, n, i = {}) {
+  const c = i.blendWindowMs ?? un, a = i.coarticulationPrimary ?? dn, h = c / 1e3;
   if (!e.length)
     return { primaryIndex: 0, secondaryIndex: 0, primaryWeight: 1 };
-  const o = jt(e, n), u = e[o].v, l = e[o].t, f = o + 1 < e.length ? e[o + 1].t : l + 1, d = f - l, A = o + 1 < e.length ? e[o + 1].v : u;
-  if (A === u || d <= 0)
-    return { primaryIndex: u, secondaryIndex: u, primaryWeight: 1 };
-  const T = Math.min(h, d * 0.4), I = f - T;
-  if (n < I)
-    return { primaryIndex: u, secondaryIndex: A, primaryWeight: 1 };
-  const w = (n - I) / T, x = Ct(w), W = 1 - (1 - i) * x;
-  return { primaryIndex: u, secondaryIndex: A, primaryWeight: W };
+  const o = Zt(e, n), d = e[o].v, l = e[o].t, m = o + 1 < e.length ? e[o + 1].t : l + 1, g = m - l, A = o + 1 < e.length ? e[o + 1].v : d;
+  if (A === d || g <= 0)
+    return { primaryIndex: d, secondaryIndex: d, primaryWeight: 1 };
+  const M = Math.min(h, g * 0.4), L = m - M;
+  if (n < L)
+    return { primaryIndex: d, secondaryIndex: A, primaryWeight: 1 };
+  const p = (n - L) / M, T = kt(p), P = 1 - (1 - a) * T;
+  return { primaryIndex: d, secondaryIndex: A, primaryWeight: P };
 }
-const mn = 1 / 8;
-function fn() {
-  const e = /* @__PURE__ */ new Map(), n = Ut.frames;
-  for (let a = 0; a < n.length; a++) {
-    const i = (n[a].phonemes ?? "").split(",").map((h) => h.trim()).filter((h) => /^[A-Za-z]{1,4}$/.test(h));
-    for (const h of i) {
+const fn = 1 / 8;
+function gn() {
+  const e = /* @__PURE__ */ new Map(), n = Ot.frames;
+  for (let i = 0; i < n.length; i++) {
+    const a = (n[i].phonemes ?? "").split(",").map((h) => h.trim()).filter((h) => /^[A-Za-z]{1,4}$/.test(h));
+    for (const h of a) {
       const o = h.toLowerCase();
-      for (const u of o)
-        e.set(u, a);
+      for (const d of o)
+        e.set(d, i);
     }
   }
   return e;
 }
-let _t = null;
-function gn() {
-  return _t === null && (_t = fn()), _t;
+let Lt = null;
+function pn() {
+  return Lt === null && (Lt = gn()), Lt;
 }
-function pn(e) {
+function yn(e) {
   const n = e.toLowerCase();
   if (!n) return 0;
-  const c = gn().get(n);
+  const c = pn().get(n);
   return c !== void 0 ? c : 0;
 }
-const ht = 80, ut = 50, Ht = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"], yn = ["ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"], Vt = ["", "", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"];
-function rt(e) {
+const dt = 80, mt = 50, Nt = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"], wn = ["ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"], Kt = ["", "", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"];
+function ot(e) {
   if (e < 0 || !Number.isFinite(e) || e !== Math.floor(e)) return String(e);
   if (e === 0) return "zero";
-  if (e < 10) return Ht[e];
-  if (e < 20) return yn[e - 10];
+  if (e < 10) return Nt[e];
+  if (e < 20) return wn[e - 10];
   if (e < 100) {
-    const n = Math.floor(e / 10), a = e % 10;
-    return a === 0 ? Vt[n] : `${Vt[n]}-${Ht[a]}`;
+    const n = Math.floor(e / 10), i = e % 10;
+    return i === 0 ? Kt[n] : `${Kt[n]}-${Nt[i]}`;
   }
   if (e < 1e3) {
-    const n = Math.floor(e / 100), a = e % 100, c = `${Ht[n]} hundred`;
-    return a === 0 ? c : `${c} ${rt(a)}`;
+    const n = Math.floor(e / 100), i = e % 100, c = `${Nt[n]} hundred`;
+    return i === 0 ? c : `${c} ${ot(i)}`;
   }
   if (e < 1e6) {
-    const n = Math.floor(e / 1e3), a = e % 1e3, c = n === 1 ? "one thousand" : `${rt(n)} thousand`;
-    return a === 0 ? c : `${c} ${rt(a)}`;
+    const n = Math.floor(e / 1e3), i = e % 1e3, c = n === 1 ? "one thousand" : `${ot(n)} thousand`;
+    return i === 0 ? c : `${c} ${ot(i)}`;
   }
   if (e < 1e9) {
-    const n = Math.floor(e / 1e6), a = e % 1e6, c = n === 1 ? "one million" : `${rt(n)} million`;
-    return a === 0 ? c : `${c} ${rt(a)}`;
+    const n = Math.floor(e / 1e6), i = e % 1e6, c = n === 1 ? "one million" : `${ot(n)} million`;
+    return i === 0 ? c : `${c} ${ot(i)}`;
   }
   return String(e);
 }
-function Zt(e) {
+function Jt(e) {
   return e.replace(/\d+/g, (n) => {
-    const a = parseInt(n, 10);
-    return Number.isNaN(a) ? n : rt(a);
+    const i = parseInt(n, 10);
+    return Number.isNaN(i) ? n : ot(i);
   });
 }
-function Rt(e, n = ht, a = ut) {
+function $t(e, n = dt, i = mt) {
   if (e.length <= 1) return e;
-  const c = n / 1e3, i = a / 1e3, h = Math.max(c, i), o = [e[0]];
-  let u = e[0].t;
-  for (let f = 1; f < e.length - 1; f++)
-    e[f].t - u >= h && (o.push(e[f]), u = e[f].t);
+  const c = n / 1e3, a = i / 1e3, h = Math.max(c, a), o = [e[0]];
+  let d = e[0].t;
+  for (let m = 1; m < e.length - 1; m++)
+    e[m].t - d >= h && (o.push(e[m]), d = e[m].t);
   const l = e[e.length - 1];
-  return l.t > u && o.push(l), o;
+  return l.t > d && o.push(l), o;
 }
-const Ft = {
+const Et = {
   ".": 3,
   "!": 3,
   "?": 3,
@@ -106,23 +106,23 @@ const Ft = {
   ";": 2,
   ":": 2
 };
-function wn(e, n, a) {
-  const c = a ?? Ut.frames.length;
+function bn(e, n, i) {
+  const c = i ?? Ot.frames.length;
   if (c === 0 || n <= 0) return [{ t: 0, v: 0 }];
-  const h = [...Zt(e)], o = h.filter((w) => /[a-zA-Z0-9]/.test(w)).length, u = h.reduce((w, x) => w + (Ft[x] ?? 0), 0), l = Math.max(1, o + u), A = Math.min(n, l * 0.12) / l, T = [{ t: 0, v: 0 }];
-  let I = 0;
-  for (const w of h) {
-    const x = Ft[w];
-    if (x !== void 0)
-      T[T.length - 1].v !== 0 && T.push({ t: I, v: 0 }), I += x * A;
-    else if (/[a-zA-Z0-9]/.test(w)) {
-      const W = Math.min(pn(w), c - 1);
-      T.push({ t: I, v: W }), I += A;
+  const h = [...Jt(e)], o = h.filter((p) => /[a-zA-Z0-9]/.test(p)).length, d = h.reduce((p, T) => p + (Et[T] ?? 0), 0), l = Math.max(1, o + d), A = Math.min(n, l * 0.12) / l, M = [{ t: 0, v: 0 }];
+  let L = 0;
+  for (const p of h) {
+    const T = Et[p];
+    if (T !== void 0)
+      M[M.length - 1].v !== 0 && M.push({ t: L, v: 0 }), L += T * A;
+    else if (/[a-zA-Z0-9]/.test(p)) {
+      const P = Math.min(yn(p), c - 1);
+      M.push({ t: L, v: P }), L += A;
     }
   }
-  return T[T.length - 1].v !== 0 && T.push({ t: I, v: 0 }), Rt(T, ht, ut);
+  return M[M.length - 1].v !== 0 && M.push({ t: L, v: 0 }), $t(M, dt, mt);
 }
-function Kt(e) {
+function zt(e) {
   return {
     x: e.anchorX - e.widthLeft,
     y: e.anchorY - e.heightAbove,
@@ -130,16 +130,16 @@ function Kt(e) {
     height: e.heightAbove + e.heightBelow
   };
 }
-function zt(e, n) {
-  const a = n >= 8, c = a && e.heightAboveRow2 != null ? e.heightAboveRow2 : e.heightAbove, i = a && e.heightBelowRow2 != null ? e.heightBelowRow2 : e.heightBelow;
+function Gt(e, n) {
+  const i = n >= 8, c = i && e.heightAboveRow2 != null ? e.heightAboveRow2 : e.heightAbove, a = i && e.heightBelowRow2 != null ? e.heightBelowRow2 : e.heightBelow;
   return {
     x: e.anchorX - e.widthLeft,
     y: e.anchorY - c,
     width: e.widthLeft + e.widthRight,
-    height: c + i
+    height: c + a
   };
 }
-const Ut = {
+const Ot = {
   imageUrl: "/modifiedmouthsprite.png",
   frames: [
     // Row 1: 8 frames (anchorY 47, height 317); widthLeft/Right and heightBelow kept within atlas
@@ -161,7 +161,7 @@ const Ut = {
     { anchorX: 833, anchorY: 167, widthLeft: 54, widthRight: 56, heightAbove: 0, heightBelow: 131, viseme: "Soft smile open", phonemes: "AE, EH, E" },
     { anchorX: 962, anchorY: 167, widthLeft: 54, widthRight: 56, heightAbove: 0, heightBelow: 131, viseme: "Relaxed open neutral", phonemes: "AH, AA, OH" }
   ]
-}, tt = {
+}, rt = {
   anchorX: 490,
   anchorY: 300,
   widthLeft: 75,
@@ -172,7 +172,7 @@ const Ut = {
   // Row 2 (frames 8–15): total height 247
   heightAboveRow2: 0,
   heightBelowRow2: 131
-}, bn = {
+}, Sn = {
   imageUrl: "/eyesspritesheet.png",
   frames: [
     { x: 0, y: 273, width: 322, height: 383, state: "open" },
@@ -181,12 +181,12 @@ const Ut = {
     { x: 950, y: 273, width: 323, height: 383, state: "surprised" },
     { x: 1271, y: 273, width: 324, height: 379, state: "half" }
   ]
-}, Sn = {
+}, An = {
   x: 322,
   y: 185,
   width: 302,
   height: 345
-}, An = {
+}, vn = {
   visemeRanges: [
     // 0) Silence / Rest
     {
@@ -514,12 +514,12 @@ const Ut = {
     }
   ]
 };
-function ot(e) {
+function it(e) {
   return !e || e.length === 0 ? 0 : e[Math.floor(e.length / 2)];
 }
-const Ve = {
+const Ke = {
   IH: "AY"
-}, Jt = {
+}, qt = {
   SIL: "REST",
   SP: "REST",
   SPN: "REST",
@@ -565,24 +565,24 @@ const Ve = {
   EY: "EY",
   YUW: "YUW"
 };
-function qt(e) {
-  const a = e.visemeFrames.REST ?? [0], c = {};
-  for (const [i, h] of Object.entries(Jt)) {
-    const o = Ve[i] ?? i, u = Ve[h] ?? h, l = e.visemeFrames[o] ?? e.visemeFrames[u] ?? a;
-    c[i] = l;
+function Qt(e) {
+  const i = e.visemeFrames.REST ?? [0], c = {};
+  for (const [a, h] of Object.entries(qt)) {
+    const o = Ke[a] ?? a, d = Ke[h] ?? h, l = e.visemeFrames[o] ?? e.visemeFrames[d] ?? i;
+    c[a] = l;
   }
   return c;
 }
-function vn(e) {
-  const n = {}, a = e.visemeFrames.REST, c = a ? ot(a) : 0, i = qt(e), h = [];
-  for (const [o, u] of Object.entries(Jt)) {
-    const l = Ve[o] ?? o, f = Ve[u] ?? u, d = !!e.visemeFrames[l], A = !!e.visemeFrames[f];
-    if (!d && !A) {
-      const I = l !== o ? ` remapped→"${l}"` : "";
-      h.push(`${o}${I} (tried keys: "${l}", "${f}")`);
+function Tn(e) {
+  const n = {}, i = e.visemeFrames.REST, c = i ? it(i) : 0, a = Qt(e), h = [];
+  for (const [o, d] of Object.entries(qt)) {
+    const l = Ke[o] ?? o, m = Ke[d] ?? d, g = !!e.visemeFrames[l], A = !!e.visemeFrames[m];
+    if (!g && !A) {
+      const L = l !== o ? ` remapped→"${l}"` : "";
+      h.push(`${o}${L} (tried keys: "${l}", "${m}")`);
     }
-    const T = i[o] ?? [c];
-    n[o] = ot(T), n[`${o}0`] = n[o], n[`${o}1`] = n[o];
+    const M = a[o] ?? [c];
+    n[o] = it(M), n[`${o}0`] = n[o], n[`${o}1`] = n[o];
   }
   return h.length > 0 && console.warn(
     `[TalkyHeads] buildPhonemeFrameIndex: ${h.length} phoneme(s) not found in viseme_map.json — falling back to REST frame.
@@ -590,7 +590,7 @@ function vn(e) {
 `)
   ), n;
 }
-const Tn = {
+const xn = {
   TH: "TH",
   SH: "SH",
   CH: "CH",
@@ -598,7 +598,7 @@ const Tn = {
   WH: "W",
   CK: "K",
   NG: "NG"
-}, Mt = {
+}, Rt = {
   A: "AH",
   B: "B",
   C: "K",
@@ -630,542 +630,543 @@ const Tn = {
   ",": "SIL",
   "!": "SIL",
   "?": "SIL"
-}, xn = 25;
-function Mn(e, n) {
-  const a = qt(n), c = n.visemeFrames.REST, i = c ? ot(c) : 0, h = c ?? [i], o = e.characters ?? [], u = e.character_start_times_seconds ?? [], l = e.character_end_times_seconds ?? [], f = [];
-  let d = 0;
-  for (; d < o.length; ) {
-    const S = o[d] ?? "", R = Mt[S.toUpperCase()] ?? S.toUpperCase();
-    if ((Ve[R] ?? R) === "SIL" || /\s/.test(S))
-      f.push({ isSil: !0, ch: S, tStart: u[d] ?? 0, tEnd: l[d] ?? (u[d] ?? 0) + 0.05 }), d++;
+}, Mn = 25;
+function Fn(e, n) {
+  const i = Qt(n), c = n.visemeFrames.REST, a = c ? it(c) : 0, h = c ?? [a], o = e.characters ?? [], d = e.character_start_times_seconds ?? [], l = e.character_end_times_seconds ?? [], m = [];
+  let g = 0;
+  for (; g < o.length; ) {
+    const S = o[g] ?? "", E = Rt[S.toUpperCase()] ?? S.toUpperCase();
+    if ((Ke[E] ?? E) === "SIL" || /\s/.test(S))
+      m.push({ isSil: !0, ch: S, tStart: d[g] ?? 0, tEnd: l[g] ?? (d[g] ?? 0) + 0.05 }), g++;
     else {
       const _ = [];
-      for (; d < o.length; ) {
-        const N = o[d] ?? "", oe = Mt[N.toUpperCase()] ?? N.toUpperCase();
-        if ((Ve[oe] ?? oe) === "SIL" || /\s/.test(N)) break;
-        _.push({ ch: N, tStart: u[d] ?? 0, tEnd: l[d] ?? (u[d] ?? 0) + 0.05 }), d++;
+      for (; g < o.length; ) {
+        const N = o[g] ?? "", ie = Rt[N.toUpperCase()] ?? N.toUpperCase();
+        if ((Ke[ie] ?? ie) === "SIL" || /\s/.test(N)) break;
+        _.push({ ch: N, tStart: d[g] ?? 0, tEnd: l[g] ?? (d[g] ?? 0) + 0.05 }), g++;
       }
-      f.push({ isSil: !1, slots: _ });
+      m.push({ isSil: !1, slots: _ });
     }
   }
-  const A = [], T = /* @__PURE__ */ new Set(), I = [], w = (S, R, L, _) => {
-    const N = (L - R) * 1e3, oe = _ ?? Mt[S.toUpperCase()] ?? S.toUpperCase(), Q = Ve[oe] ?? oe, he = a[Q], ie = !he;
-    ie && T.add(`"${Q}" (from char "${S}")`);
-    const v = he ?? h, k = v.length > 1 ? Math.min(v.length, Math.max(1, Math.floor(N / xn))) : 1, we = `[${v.join(",")}]`;
-    let Fe, ue;
-    if (k >= 2) {
-      const ne = k === v.length ? [...v] : Array.from(
-        { length: k },
-        (Te, $e) => v[Math.round($e * (v.length - 1) / (k - 1))]
-      ), Le = Math.round(N / k);
-      Fe = k === v.length ? `${Q}:[${v[0]}→${v[v.length - 1]}]×${k}@${Le}ms` : `${Q}:[${ne[0]}→${ne[k - 1]}]×${k}/${v.length}@${Le}ms`, ue = `[${ne.join(",")}]`;
-      const Ne = (L - R) / k;
-      for (let Te = 0; Te < k; Te++)
-        A.push({ t: R + Te * Ne, v: ne[Te] });
+  const A = [], M = /* @__PURE__ */ new Set(), L = [], p = (S, E, I, _) => {
+    const N = (I - E) * 1e3, ie = _ ?? Rt[S.toUpperCase()] ?? S.toUpperCase(), se = Ke[ie] ?? ie, ge = i[se], ce = !ge;
+    ce && M.add(`"${se}" (from char "${S}")`);
+    const v = ge ?? h, G = v.length > 1 ? Math.min(v.length, Math.max(1, Math.floor(N / Mn))) : 1, te = `[${v.join(",")}]`;
+    let pe, Se;
+    if (G >= 2) {
+      const ne = G === v.length ? [...v] : Array.from(
+        { length: G },
+        (Ae, We) => v[Math.round(We * (v.length - 1) / (G - 1))]
+      ), Pe = Math.round(N / G);
+      pe = G === v.length ? `${se}:[${v[0]}→${v[v.length - 1]}]×${G}@${Pe}ms` : `${se}:[${ne[0]}→${ne[G - 1]}]×${G}/${v.length}@${Pe}ms`, Se = `[${ne.join(",")}]`;
+      const _e = (I - E) / G;
+      for (let Ae = 0; Ae < G; Ae++)
+        A.push({ t: E + Ae * _e, v: ne[Ae] });
     } else {
-      const ne = ot(v);
-      Fe = v.length > 1 ? `${Q}:${ne}(1/${v.length},${Math.round(N)}ms)` : `${Q}:${ne}`, ue = `[${ne}]`, A.push({ t: R, v: ne });
+      const ne = it(v);
+      pe = v.length > 1 ? `${se}:${ne}(1/${v.length},${Math.round(N)}ms)` : `${se}:${ne}`, Se = `[${ne}]`, A.push({ t: E, v: ne });
     }
-    I.push({ char: S, phoneme: Q, mapped: ie ? "⚠ MISSING" : "✓", candidates: we, selected: ue, frames: Fe, tStart: Math.round(R * 1e3) / 1e3, dur_ms: Math.round(N) });
+    L.push({ char: S, phoneme: se, mapped: ce ? "⚠ MISSING" : "✓", candidates: te, selected: Se, frames: pe, tStart: Math.round(E * 1e3) / 1e3, dur_ms: Math.round(N) });
   };
-  for (const S of f) {
+  for (const S of m) {
     if (S.isSil) {
-      A.push({ t: S.tStart, v: i }), I.push({ char: S.ch, phoneme: "SIL", mapped: "✓", candidates: `[${i}]`, selected: `[${i}]`, frames: `REST:${i}`, tStart: Math.round(S.tStart * 1e3) / 1e3, dur_ms: Math.round((S.tEnd - S.tStart) * 1e3) });
+      A.push({ t: S.tStart, v: a }), L.push({ char: S.ch, phoneme: "SIL", mapped: "✓", candidates: `[${a}]`, selected: `[${a}]`, frames: `REST:${a}`, tStart: Math.round(S.tStart * 1e3) / 1e3, dur_ms: Math.round((S.tEnd - S.tStart) * 1e3) });
       continue;
     }
-    const R = S.slots, L = [];
+    const E = S.slots, I = [];
     {
       let v = 0;
-      for (; v < R.length; ) {
-        if (v + 1 < R.length) {
-          const k = (R[v].ch + R[v + 1].ch).toUpperCase(), we = Tn[k];
-          if (we) {
-            L.push({
-              ch: R[v].ch + R[v + 1].ch,
-              tStart: R[v].tStart,
-              tEnd: R[v + 1].tEnd,
-              phonemeOverride: we
+      for (; v < E.length; ) {
+        if (v + 1 < E.length) {
+          const G = (E[v].ch + E[v + 1].ch).toUpperCase(), te = xn[G];
+          if (te) {
+            I.push({
+              ch: E[v].ch + E[v + 1].ch,
+              tStart: E[v].tStart,
+              tEnd: E[v + 1].tEnd,
+              phonemeOverride: te
             }), v += 2;
             continue;
           }
         }
-        L.push({ ch: R[v].ch, tStart: R[v].tStart, tEnd: R[v].tEnd }), v++;
+        I.push({ ch: E[v].ch, tStart: E[v].tStart, tEnd: E[v].tEnd }), v++;
       }
     }
-    const _ = L, N = _.length, oe = _[0].tStart, Q = _[N - 1].tEnd;
-    if ((Q - oe) * 1e3 <= 100 && N > 0) {
+    const _ = I, N = _.length, ie = _[0].tStart, se = _[N - 1].tEnd;
+    if ((se - ie) * 1e3 <= 100 && N > 0) {
       const v = _[Math.floor(N / 2)];
-      w(v.ch, oe, Q, v.phonemeOverride);
+      p(v.ch, ie, se, v.phonemeOverride);
       continue;
     }
-    const ie = [];
-    for (let v = 0; v < N; v += 2) ie.push(v);
-    N > 1 && !ie.includes(N - 1) && ie.push(N - 1);
-    for (let v = 0; v < ie.length; v++) {
-      const k = ie[v], we = _[k], Fe = we.tStart, ue = ie[v + 1], ne = ue !== void 0 ? _[ue].tStart : Q;
-      w(we.ch, Fe, ne, we.phonemeOverride);
+    const ce = [];
+    for (let v = 0; v < N; v += 2) ce.push(v);
+    N > 1 && !ce.includes(N - 1) && ce.push(N - 1);
+    for (let v = 0; v < ce.length; v++) {
+      const G = ce[v], te = _[G], pe = te.tStart, Se = ce[v + 1], ne = Se !== void 0 ? _[Se].tStart : se;
+      p(te.ch, pe, ne, te.phonemeOverride);
     }
   }
-  if (console.groupCollapsed(`[TalkyHeads] alignment phoneme sequence (${I.length} of ${o.length} chars used)`), console.table(I), console.groupEnd(), T.size > 0 && console.warn(
+  if (console.groupCollapsed(`[TalkyHeads] alignment phoneme sequence (${L.length} of ${o.length} chars used)`), console.table(L), console.groupEnd(), M.size > 0 && console.warn(
     `[TalkyHeads] buildVisemeTimelineFromAlignmentAndMap: phoneme(s) not in viseme_map — using REST frame:
-` + [...T].map((S) => `  • ${S}`).join(`
+` + [...M].map((S) => `  • ${S}`).join(`
 `)
-  ), A.length === 0) return [{ t: 0, v: i }];
-  const x = l[o.length - 1] ?? (u[o.length - 1] ?? 0) + 0.15;
-  A.push({ t: x, v: i });
+  ), A.length === 0) return [{ t: 0, v: a }];
+  const T = l[o.length - 1] ?? (d[o.length - 1] ?? 0) + 0.15;
+  A.push({ t: T, v: a });
   const X = 60 / 1e3;
   for (let S = 0; S < A.length; S++)
     A[S] = { t: Math.max(0, A[S].t - X), v: A[S].v };
-  const M = [A[0]];
+  const x = [A[0]];
   for (let S = 1; S < A.length; S++)
-    A[S].v !== M[M.length - 1].v && M.push(A[S]);
-  const O = Rt(M, ht, ut);
-  return O[0].t > 0 && O.unshift({ t: 0, v: i }), O;
+    A[S].v !== x[x.length - 1].v && x.push(A[S]);
+  const k = $t(x, dt, mt);
+  return k[0].t > 0 && k.unshift({ t: 0, v: a }), k;
 }
-function Fn(e, n, a) {
-  const c = vn(a), i = a.visemeFrames.REST, h = i ? ot(i) : 0, u = [...Zt(e)], l = u.filter((M) => /[a-zA-Z0-9']/.test(M)).length, f = u.reduce((M, O) => M + (Ft[O] ?? 0), 0), d = Math.max(1, l + f), I = Math.min(n, d * 0.12) / d, w = [{ t: 0, v: h }];
-  let x = 0;
-  const W = /* @__PURE__ */ new Set(), X = [];
-  for (const M of u) {
-    const O = Ft[M];
-    if (O !== void 0)
-      X.push({ char: M, phoneme: "REST (pause)", frameIdx: h, t: x.toFixed(3) }), w[w.length - 1].v !== h && w.push({ t: x, v: h }), x += O * I;
-    else if (/[a-zA-Z0-9']/.test(M)) {
-      const S = M.toUpperCase(), R = Mt[S] ?? S, L = Ve[R] ?? R, _ = c[L];
-      _ === void 0 && W.add(`"${L}" (from char "${M}"${R !== L ? `, remapped from "${R}"` : ""})`);
-      const N = R !== L ? `${R}→${L}` : L;
-      X.push({ char: M, phoneme: N, frameIdx: _ ?? "MISSING", t: x.toFixed(3) }), w.push({ t: x, v: _ ?? h }), x += I;
+function Rn(e, n, i) {
+  const c = Tn(i), a = i.visemeFrames.REST, h = a ? it(a) : 0, d = [...Jt(e)], l = d.filter((x) => /[a-zA-Z0-9']/.test(x)).length, m = d.reduce((x, k) => x + (Et[k] ?? 0), 0), g = Math.max(1, l + m), L = Math.min(n, g * 0.12) / g, p = [{ t: 0, v: h }];
+  let T = 0;
+  const P = /* @__PURE__ */ new Set(), X = [];
+  for (const x of d) {
+    const k = Et[x];
+    if (k !== void 0)
+      X.push({ char: x, phoneme: "REST (pause)", frameIdx: h, t: T.toFixed(3) }), p[p.length - 1].v !== h && p.push({ t: T, v: h }), T += k * L;
+    else if (/[a-zA-Z0-9']/.test(x)) {
+      const S = x.toUpperCase(), E = Rt[S] ?? S, I = Ke[E] ?? E, _ = c[I];
+      _ === void 0 && P.add(`"${I}" (from char "${x}"${E !== I ? `, remapped from "${E}"` : ""})`);
+      const N = E !== I ? `${E}→${I}` : I;
+      X.push({ char: x, phoneme: N, frameIdx: _ ?? "MISSING", t: T.toFixed(3) }), p.push({ t: T, v: _ ?? h }), T += L;
     }
   }
-  return console.group(`[TalkyHeads] text phoneme sequence (${e.slice(0, 40)}${e.length > 40 ? "…" : ""})`), console.table(X), console.groupEnd(), W.size > 0 && console.warn(
+  return console.group(`[TalkyHeads] text phoneme sequence (${e.slice(0, 40)}${e.length > 40 ? "…" : ""})`), console.table(X), console.groupEnd(), P.size > 0 && console.warn(
     `[TalkyHeads] buildVisemeTimelineFromTextAndMap: phoneme(s) not in phonemeFrameIndex — using REST frame:
-` + [...W].map((M) => `  • ${M}`).join(`
+` + [...P].map((x) => `  • ${x}`).join(`
 `)
-  ), w[w.length - 1].v !== h && w.push({ t: x, v: h }), Rt(w, ht, ut);
+  ), p[p.length - 1].v !== h && p.push({ t: T, v: h }), $t(p, dt, mt);
 }
-function Rn(e) {
+function En(e) {
   var c;
-  const n = /* @__PURE__ */ new Map(), a = e.visemeRanges;
-  for (let i = 0; i < a.length; i++) {
-    const o = (((c = a[i]) == null ? void 0 : c.phonemes) ?? "").trim().split(",").map((u) => u.trim()).filter((u) => /^[A-Za-z]{1,4}$/i.test(u));
-    for (const u of o) {
-      const l = u.toLowerCase();
-      for (const f of l) n.set(f, i);
+  const n = /* @__PURE__ */ new Map(), i = e.visemeRanges;
+  for (let a = 0; a < i.length; a++) {
+    const o = (((c = i[a]) == null ? void 0 : c.phonemes) ?? "").trim().split(",").map((d) => d.trim()).filter((d) => /^[A-Za-z]{1,4}$/i.test(d));
+    for (const d of o) {
+      const l = d.toLowerCase();
+      for (const m of l) n.set(m, a);
     }
   }
   return n;
 }
-function En(e, n) {
-  const a = Rn(n), c = n.visemeRanges.length;
+function $n(e, n) {
+  const i = En(n), c = n.visemeRanges.length;
   if (c === 0) return [{ t: 0, v: 0 }];
-  const { characters: i, character_start_times_seconds: h, character_end_times_seconds: o } = e, u = [];
+  const { characters: a, character_start_times_seconds: h, character_end_times_seconds: o } = e, d = [];
   let l = null;
-  for (let A = 0; A < i.length; A++) {
-    const T = (i[A] ?? "").toLowerCase(), I = h[A] ?? 0, w = T ? a.get(T) ?? 0 : 0, x = Math.max(0, Math.min(w, c - 1));
-    l !== x && (u.push({ t: I, v: x }), l = x);
+  for (let A = 0; A < a.length; A++) {
+    const M = (a[A] ?? "").toLowerCase(), L = h[A] ?? 0, p = M ? i.get(M) ?? 0 : 0, T = Math.max(0, Math.min(p, c - 1));
+    l !== T && (d.push({ t: L, v: T }), l = T);
   }
-  if (o.length > 0 && o[o.length - 1], u.length === 0) return [{ t: 0, v: 0 }];
-  const f = h[i.length - 1] ?? 0;
-  u.push({ t: f + 0.15, v: 0 });
-  const d = Rt(u, ht, ut);
-  return d[0].t > 0 && d.unshift({ t: 0, v: 0 }), d;
+  if (o.length > 0 && o[o.length - 1], d.length === 0) return [{ t: 0, v: 0 }];
+  const m = h[a.length - 1] ?? 0;
+  d.push({ t: m + 0.15, v: 0 });
+  const g = $t(d, dt, mt);
+  return g[0].t > 0 && g.unshift({ t: 0, v: 0 }), g;
 }
-const st = typeof import.meta < "u" ? "/".replace(/\/$/, "") : "", Gt = `${st}/parent.png`, Lt = `${st}/mouthsprite.png`, $n = 5 / 60, In = 4 / 60;
-function _n({
+const at = typeof import.meta < "u" ? "/".replace(/\/$/, "") : "", jt = `${at}/parent.png`, Ct = `${at}/mouthsprite.png`, In = 5 / 60, _n = 4 / 60;
+function Hn({
   baseImageUrl: e,
   restImageUrl: n,
-  restImageScale: a = 1,
+  restImageScale: i = 1,
   shape: c = "square",
-  audioEl: i = null,
+  audioEl: a = null,
   visemeEvents: h = [],
   speaking: o = !1,
-  width: u,
+  width: d,
   height: l,
-  debug: f = !1,
-  atlas: d,
+  debug: m = !1,
+  atlas: g,
   mouthDest: A,
-  overlays: T,
-  mouthSpeed: I = 1,
-  previewMouthIndex: w,
-  onMouthIndexChange: x,
-  eyeAtlas: W,
+  overlays: M,
+  mouthSpeed: L = 1,
+  previewMouthIndex: p,
+  onMouthIndexChange: T,
+  eyeAtlas: P,
   eyeDest: X,
-  eyeState: M,
-  eyeFrameIndex: O,
+  eyeState: x,
+  eyeFrameIndex: k,
   blinkEnabled: S = !0,
-  syncOffsetMs: R = 0,
-  onTick: L,
+  syncOffsetMs: E = 0,
+  onTick: I,
   visemeMap: _,
   className: N = "",
-  disableBlending: oe = !1,
-  onAssetsReady: Q
+  style: ie,
+  disableBlending: se = !1,
+  onAssetsReady: ge
 }) {
-  var Yt;
-  const he = R / 1e3, ie = Math.max(0.3, Math.min(2, I)), v = (() => {
-    const t = n ?? e ?? Gt;
+  var Dt;
+  const ce = E / 1e3, v = Math.max(0.3, Math.min(2, L)), G = (() => {
+    const t = n ?? e ?? jt;
     if (t)
-      return t.startsWith("/") ? `${st}${t}` : t;
-  })(), k = _ ? (() => {
+      return t.startsWith("/") ? `${at}${t}` : t;
+  })(), te = _ ? (() => {
     const t = _.visemeFrames.REST;
-    return t && t.length > 0 ? ot(t) : 0;
-  })() : 0, we = F(null), Fe = F(null), [ue, ne] = q(!1), [Le, Ne] = q(null), [Te, $e] = q(null), [Ie, dt] = q(null), [ke, Ge] = q(null), Ce = F(null), de = F(null), Oe = F([]), Pe = F(null), mt = F(null), J = F(null), je = F(null), xe = F(/* @__PURE__ */ new Map()), $ = F(o);
-  $.current = o;
-  const me = F(oe);
-  me.current = oe;
-  const ae = F(0), fe = F(-1), ft = F(0), ge = F(-1), Se = F(-1), Ke = F(0), We = F(-1), at = F(0), Ae = F(-1), gt = F(""), pt = F(""), kt = F(""), yt = F(0), Qt = d ?? Ut, re = W ?? bn, Me = X ?? Sn;
-  let _e = A ?? tt;
-  (!_e || !("anchorX" in _e) || !("anchorY" in _e) || !("widthLeft" in _e) || !("widthRight" in _e) || !("heightAbove" in _e) || !("heightBelow" in _e)) && (console.warn("TalkingHeadCanvas - Invalid mouthDest structure, using defaults:", _e), _e = tt);
-  const it = T && T.length > 0 ? T : [{ atlas: Qt, dest: _e }], wt = F(it);
-  wt.current = it;
-  const ve = it[0].atlas, ce = it[0].dest;
-  ye(() => {
-  }, [ce, ke, f, ve]);
-  const [en, Ot] = q(0), Ze = se(() => i && !isNaN(i.currentTime) ? i.currentTime + he : (performance.now() - ft.current) / 1e3, [i, he]), Et = se(() => {
-    const t = Ze();
-    if (!(o || f)) return 0;
+    return t && t.length > 0 ? it(t) : 0;
+  })() : 0, pe = R(null), Se = R(null), [ne, Pe] = q(!1), [_e, Ae] = q(null), [We, ze] = q(null), [Ge, Fe] = q(null), [Be, ft] = q(null), He = R(null), ye = R(null), Re = R([]), Ee = R(null), gt = R(null), pt = R(null), J = R(null), Le = R(/* @__PURE__ */ new Map()), Ne = R(o);
+  Ne.current = o;
+  const F = R(se);
+  F.current = se;
+  const me = R(0), Q = R(-1), Ce = R(0), ct = R(-1), ue = R(-1), Ue = R(0), ke = R(-1), Je = R(0), je = R(-1), Te = R(""), yt = R(""), wt = R(""), bt = R(0), en = g ?? Ot, oe = P ?? Sn, ve = X ?? An;
+  let $e = A ?? rt;
+  (!$e || !("anchorX" in $e) || !("anchorY" in $e) || !("widthLeft" in $e) || !("widthRight" in $e) || !("heightAbove" in $e) || !("heightBelow" in $e)) && (console.warn("TalkingHeadCanvas - Invalid mouthDest structure, using defaults:", $e), $e = rt);
+  const lt = M && M.length > 0 ? M : [{ atlas: en, dest: $e }], St = R(lt);
+  St.current = lt;
+  const be = lt[0].atlas, le = lt[0].dest;
+  de(() => {
+  }, [le, Be, m, be]);
+  const [tn, Pt] = q(0), qe = ae(() => a && !isNaN(a.currentTime) ? a.currentTime + ce : (performance.now() - Ce.current) / 1e3, [a, ce]), It = ae(() => {
+    const t = qe();
+    if (!(o || m)) return 0;
     if (h.length > 0 && o) {
-      const r = ln(h, t);
-      return Math.max(0, Math.min(r, ve.frames.length - 1));
+      const r = hn(h, t);
+      return Math.max(0, Math.min(r, be.frames.length - 1));
     }
-    if (i && o && Number.isFinite(i.duration) && i.duration > 0) {
-      const r = i.duration, y = Math.max(0, Math.min(1, t / r));
-      return Math.floor(y * ve.frames.length) % Math.max(1, ve.frames.length);
+    if (a && o && Number.isFinite(a.duration) && a.duration > 0) {
+      const r = a.duration, w = Math.max(0, Math.min(1, t / r));
+      return Math.floor(w * be.frames.length) % Math.max(1, be.frames.length);
     }
-    return Math.floor(t / mn) % ve.frames.length;
-  }, [o, f, h, Ze, ve.frames.length, i]), Pt = se(() => {
-    const t = Ze() * ie;
-    return dn(h, t);
-  }, [h, Ze, ie]), Ue = F(L);
-  Ue.current = L;
-  const Wt = F(0), [tn, ct] = q(0), ze = F(null), bt = O != null ? Math.max(0, Math.min(O, re.frames.length - 1)) : M !== void 0 ? (() => {
-    const t = re.frames.findIndex((g) => g.state === M);
+    return Math.floor(t / fn) % be.frames.length;
+  }, [o, m, h, qe, be.frames.length, a]), Wt = ae(() => {
+    const t = qe() * v;
+    return mn(h, t);
+  }, [h, qe, v]), Oe = R(I);
+  Oe.current = I;
+  const Bt = R(0), [nn, ht] = q(0), Ze = R(null), At = k != null ? Math.max(0, Math.min(k, oe.frames.length - 1)) : x !== void 0 ? (() => {
+    const t = oe.frames.findIndex((f) => f.state === x);
     return t >= 0 ? t : 0;
-  })() : S ? Math.max(0, Math.min(tn, re.frames.length - 1)) : 0, $t = F(re);
-  $t.current = re, ye(() => {
-    if (!S || M !== void 0 || O != null) return;
-    const t = $t.current.frames, g = Math.max(0, t.findIndex((y) => y.state === "open"));
-    ct(g);
+  })() : S ? Math.max(0, Math.min(nn, oe.frames.length - 1)) : 0, _t = R(oe);
+  _t.current = oe, de(() => {
+    if (!S || x !== void 0 || k != null) return;
+    const t = _t.current.frames, f = Math.max(0, t.findIndex((w) => w.state === "open"));
+    ht(f);
     const s = () => {
-      const y = o ? 2500 : 3e3, p = o ? 5e3 : 6e3, H = y + Math.random() * (p - y);
-      ze.current = setTimeout(r, H);
+      const w = o ? 2500 : 3e3, y = o ? 5e3 : 6e3, H = w + Math.random() * (y - w);
+      Ze.current = setTimeout(r, H);
     }, r = () => {
-      const y = $t.current.frames, p = Math.max(0, y.findIndex((m) => m.state === "open")), H = y.findIndex((m) => m.state === "closed"), C = y.findIndex((m) => m.state === "half"), b = C >= 0 ? C : H >= 0 ? H : p, B = H >= 0 ? H : p;
-      ct(b), ze.current = setTimeout(() => {
-        ct(B), ze.current = setTimeout(() => {
-          ct(b), ze.current = setTimeout(() => {
-            ct(p), s();
+      const w = _t.current.frames, y = Math.max(0, w.findIndex((u) => u.state === "open")), H = w.findIndex((u) => u.state === "closed"), C = w.findIndex((u) => u.state === "half"), b = C >= 0 ? C : H >= 0 ? H : y, W = H >= 0 ? H : y;
+      ht(b), Ze.current = setTimeout(() => {
+        ht(W), Ze.current = setTimeout(() => {
+          ht(b), Ze.current = setTimeout(() => {
+            ht(y), s();
           }, 40);
         }, 40);
       }, 40);
     };
     return s(), () => {
-      ze.current && clearTimeout(ze.current), ze.current = null;
+      Ze.current && clearTimeout(Ze.current), Ze.current = null;
     };
-  }, [S, o, M, O]);
-  const It = se(
-    (t, g, s) => {
-      const r = de.current;
+  }, [S, o, x, k]);
+  const Ht = ae(
+    (t, f, s) => {
+      const r = ye.current;
       if (!(!(r != null && r.complete) || !r.naturalWidth))
-        if (a === 1)
-          t.drawImage(r, 0, 0, r.naturalWidth, r.naturalHeight, 0, 0, g, s);
+        if (i === 1)
+          t.drawImage(r, 0, 0, r.naturalWidth, r.naturalHeight, 0, 0, f, s);
         else {
-          const y = g * a, p = s * a, H = (g - y) / 2, C = (s - p) / 2;
-          t.drawImage(r, 0, 0, r.naturalWidth, r.naturalHeight, H, C, y, p);
+          const w = f * i, y = s * i, H = (f - w) / 2, C = (s - y) / 2;
+          t.drawImage(r, 0, 0, r.naturalWidth, r.naturalHeight, H, C, w, y);
         }
     },
-    [a]
-  ), Je = se(
-    (t, g, s) => {
-      const r = Ce.current;
-      !(r != null && r.complete) || !r.naturalWidth || (t.fillStyle = "#ffffff", t.fillRect(0, 0, g, s), t.drawImage(r, 0, 0, r.naturalWidth, r.naturalHeight, 0, 0, g, s));
+    [i]
+  ), Qe = ae(
+    (t, f, s) => {
+      const r = He.current;
+      !(r != null && r.complete) || !r.naturalWidth || (t.fillStyle = "#ffffff", t.fillRect(0, 0, f, s), t.drawImage(r, 0, 0, r.naturalWidth, r.naturalHeight, 0, 0, f, s));
     },
     []
-  ), Be = se(
-    (t, g) => {
-      const s = Pe.current;
+  ), Ye = ae(
+    (t, f) => {
+      const s = Ee.current;
       if (!(s != null && s.complete) || !s.naturalWidth || !s.naturalHeight) return;
-      const r = Math.max(0, Math.min(g, re.frames.length - 1)), y = re.frames[r];
-      if (!y) return;
-      const { x: p, y: H, width: C, height: b } = y, { x: B, y: m, width: G, height: V } = Me, Y = s.naturalWidth, E = s.naturalHeight;
-      if (p + C > Y || H + b > E || p < 0 || H < 0) {
-        r === 0 && console.warn("TalkingHeadCanvas - Eye frame 0 source rect outside atlas", { sx: p, sy: H, sw: C, sh: b, atlasSize: [Y, E] });
+      const r = Math.max(0, Math.min(f, oe.frames.length - 1)), w = oe.frames[r];
+      if (!w) return;
+      const { x: y, y: H, width: C, height: b } = w, { x: W, y: u, width: z, height: D } = ve, B = s.naturalWidth, $ = s.naturalHeight;
+      if (y + C > B || H + b > $ || y < 0 || H < 0) {
+        r === 0 && console.warn("TalkingHeadCanvas - Eye frame 0 source rect outside atlas", { sx: y, sy: H, sw: C, sh: b, atlasSize: [B, $] });
         return;
       }
-      t.drawImage(s, p, H, C, b, B, m, G, V);
+      t.drawImage(s, y, H, C, b, W, u, z, D);
     },
-    [re, Me]
-  ), lt = se(
-    (t, g, s, r, y, p) => {
+    [oe, ve]
+  ), ut = ae(
+    (t, f, s, r, w, y) => {
       if (!r.complete || !r.naturalWidth || !r.naturalHeight) return;
-      const H = Math.max(0, Math.min(y, g.frames.length - 1)), C = g.frames[H];
+      const H = Math.max(0, Math.min(w, f.frames.length - 1)), C = f.frames[H];
       if (!C) return;
-      const b = Kt(C), B = r.naturalWidth, m = r.naturalHeight, G = b.x, V = b.y, Y = Math.max(0, Math.min(G, B - 1)), E = Math.max(0, Math.min(V, m - 1)), P = Math.min(B, G + b.width), K = Math.min(m, V + b.height), U = Math.max(0, P - Y), z = Math.max(0, K - E);
-      if (U < 1 || z < 1) {
-        H === 0 && console.warn("TalkingHeadCanvas - Frame 0 source rect fully outside atlas; atlas size:", B, "x", m, "sourceRect:", b);
+      const b = zt(C), W = r.naturalWidth, u = r.naturalHeight, z = b.x, D = b.y, B = Math.max(0, Math.min(z, W - 1)), $ = Math.max(0, Math.min(D, u - 1)), O = Math.min(W, z + b.width), V = Math.min(u, D + b.height), U = Math.max(0, O - B), K = Math.max(0, V - $);
+      if (U < 1 || K < 1) {
+        H === 0 && console.warn("TalkingHeadCanvas - Frame 0 source rect fully outside atlas; atlas size:", W, "x", u, "sourceRect:", b);
         return;
       }
-      const j = zt(s, H), D = j.width / b.width, ee = j.height / b.height, te = C.widthLeft * D, Re = C.heightAbove * ee, be = typeof s.anchorX == "number" && !isNaN(s.anchorX) ? s.anchorX : tt.anchorX, le = typeof s.anchorY == "number" && !isNaN(s.anchorY) ? s.anchorY : tt.anchorY, Z = be - te, pe = le - Re, et = Z + (Y - G) * D, De = pe + (E - V) * ee, vt = U * D, Tt = z * ee;
-      (isNaN(et) || isNaN(De) || et < -1e4 || De < -1e4) && console.error("TalkingHeadCanvas - Invalid destination position:", { dx: et, dy: De, dw: vt, dh: Tt, destAnchorX: be, destAnchorY: le, ovDest: s, sourceRect: b, destRect: j }), t.save(), t.globalAlpha = p, t.imageSmoothingEnabled = !me.current, t.imageSmoothingQuality = "low", me.current || (t.filter = "brightness(0.98) contrast(1.02) saturate(0.97)");
+      const j = Gt(s, H), Y = j.width / b.width, ee = j.height / b.height, re = C.widthLeft * Y, xe = C.heightAbove * ee, we = typeof s.anchorX == "number" && !isNaN(s.anchorX) ? s.anchorX : rt.anchorX, he = typeof s.anchorY == "number" && !isNaN(s.anchorY) ? s.anchorY : rt.anchorY, Z = we - re, fe = he - xe, nt = Z + (B - z) * Y, Xe = fe + ($ - D) * ee, xt = U * Y, Mt = K * ee;
+      (isNaN(nt) || isNaN(Xe) || nt < -1e4 || Xe < -1e4) && console.error("TalkingHeadCanvas - Invalid destination position:", { dx: nt, dy: Xe, dw: xt, dh: Mt, destAnchorX: we, destAnchorY: he, ovDest: s, sourceRect: b, destRect: j }), t.save(), t.globalAlpha = y, t.imageSmoothingEnabled = !F.current, t.imageSmoothingQuality = "low", F.current || (t.filter = "brightness(0.98) contrast(1.02) saturate(0.97)");
       try {
-        t.drawImage(r, Y, E, U, z, et, De, vt, Tt);
+        t.drawImage(r, B, $, U, K, nt, Xe, xt, Mt);
       } finally {
         t.filter = "none", t.restore();
       }
     },
     []
     // stable – all data passed as arguments
-  ), He = se(
-    (t, g, s, r, y) => {
-      const p = wt.current, H = Oe.current;
-      p.forEach((C, b) => {
-        const B = H[b];
-        B && lt(t, C.atlas, C.dest, B, r, y);
+  ), Ie = ae(
+    (t, f, s, r, w) => {
+      const y = St.current, H = Re.current;
+      y.forEach((C, b) => {
+        const W = H[b];
+        W && ut(t, C.atlas, C.dest, W, r, w);
       });
     },
-    [lt]
-  ), Ye = se(
-    (t, g, s, r, y) => {
-      if (!f) return;
-      const p = re.frames[Math.max(0, Math.min(y, re.frames.length - 1))];
-      t.strokeStyle = "#0066ff", t.lineWidth = 2, t.strokeRect(Me.x, Me.y, Me.width, Me.height), t.fillStyle = "rgba(0,0,0,0.85)", t.font = "bold 13px monospace", t.fillText(`Eye: ${(p == null ? void 0 : p.state) ?? "?"} (${y})`, 8, 18);
-      const H = Math.max(0, Math.min(r, ve.frames.length - 1)), C = ve.frames[H];
+    [ut]
+  ), De = ae(
+    (t, f, s, r, w) => {
+      if (!m) return;
+      const y = oe.frames[Math.max(0, Math.min(w, oe.frames.length - 1))];
+      t.strokeStyle = "#0066ff", t.lineWidth = 2, t.strokeRect(ve.x, ve.y, ve.width, ve.height), t.fillStyle = "rgba(0,0,0,0.85)", t.font = "bold 13px monospace", t.fillText(`Eye: ${(y == null ? void 0 : y.state) ?? "?"} (${w})`, 8, 18);
+      const H = Math.max(0, Math.min(r, be.frames.length - 1)), C = be.frames[H];
       if (!C) return;
-      const b = Kt(C), B = zt(ce, H), m = B.width / b.width, G = B.height / b.height, V = C.widthLeft * m, Y = C.heightAbove * G, E = typeof ce.anchorX == "number" && !isNaN(ce.anchorX) ? ce.anchorX : tt.anchorX, P = typeof ce.anchorY == "number" && !isNaN(ce.anchorY) ? ce.anchorY : tt.anchorY, K = E - V, U = P - Y, z = b.width * m, j = b.height * G;
-      t.fillStyle = "#ff0000", t.beginPath(), t.arc(E, P, 5, 0, Math.PI * 2), t.fill(), t.fillStyle = "#00ff00", t.beginPath(), t.arc(E, P, 5, 0, Math.PI * 2), t.fill(), t.fillStyle = "rgba(0, 255, 0, 0.1)", t.fillRect(K, U, z, j), t.strokeStyle = "#00ff00", t.lineWidth = 3, t.strokeRect(K, U, z, j), [
+      const b = zt(C), W = Gt(le, H), u = W.width / b.width, z = W.height / b.height, D = C.widthLeft * u, B = C.heightAbove * z, $ = typeof le.anchorX == "number" && !isNaN(le.anchorX) ? le.anchorX : rt.anchorX, O = typeof le.anchorY == "number" && !isNaN(le.anchorY) ? le.anchorY : rt.anchorY, V = $ - D, U = O - B, K = b.width * u, j = b.height * z;
+      t.fillStyle = "#ff0000", t.beginPath(), t.arc($, O, 5, 0, Math.PI * 2), t.fill(), t.fillStyle = "#00ff00", t.beginPath(), t.arc($, O, 5, 0, Math.PI * 2), t.fill(), t.fillStyle = "rgba(0, 255, 0, 0.1)", t.fillRect(V, U, K, j), t.strokeStyle = "#00ff00", t.lineWidth = 3, t.strokeRect(V, U, K, j), [
         `Mouth frame ${H}: ${C.viseme} (${C.phonemes})`,
         `Source: x=${b.x} y=${b.y} w=${b.width} h=${b.height}`,
-        `Dest: x=${K.toFixed(0)} y=${U.toFixed(0)} w=${z.toFixed(0)} h=${j.toFixed(0)}`
-      ].forEach((ee, te) => {
-        t.fillText(ee, 8, 36 + te * 18);
+        `Dest: x=${V.toFixed(0)} y=${U.toFixed(0)} w=${K.toFixed(0)} h=${j.toFixed(0)}`
+      ].forEach((ee, re) => {
+        t.fillText(ee, 8, 36 + re * 18);
       });
     },
-    [f, ve, ce, re, Me]
-  ), Bt = se(
-    (t, g, s, r) => {
-      const p = Math.round(Math.min(s, r) * 0.12), H = Math.round(Math.min(s, r) * 0.08), C = 3;
-      let b = s, B = r, m = -1, G = -1;
-      for (let E = 0; E < r; E++)
-        for (let P = 0; P < s; P++) {
-          const K = (E * s + P) * 4, U = t[K] - g[K], z = t[K + 1] - g[K + 1], j = t[K + 2] - g[K + 2];
-          Math.abs(0.2126 * U + 0.7152 * z + 0.0722 * j) > 10 && (P < b && (b = P), P > m && (m = P), E < B && (B = E), E > G && (G = E));
+    [m, be, le, oe, ve]
+  ), Yt = ae(
+    (t, f, s, r) => {
+      const y = Math.round(Math.min(s, r) * 0.12), H = Math.round(Math.min(s, r) * 0.08), C = 3;
+      let b = s, W = r, u = -1, z = -1;
+      for (let $ = 0; $ < r; $++)
+        for (let O = 0; O < s; O++) {
+          const V = ($ * s + O) * 4, U = t[V] - f[V], K = t[V + 1] - f[V + 1], j = t[V + 2] - f[V + 2];
+          Math.abs(0.2126 * U + 0.7152 * K + 0.0722 * j) > 10 && (O < b && (b = O), O > u && (u = O), $ < W && (W = $), $ > z && (z = $));
         }
-      if (m < 0) return new Float32Array(s * r).fill(1);
-      b = Math.max(0, b - p), B = Math.max(0, B - p), m = Math.min(s, m + p), G = Math.min(r, G + p);
-      let V = new Float32Array(s * r);
-      for (let E = B; E < G; E++)
-        for (let P = b; P < m; P++)
-          V[E * s + P] = 1;
-      if (H <= 0) return V;
-      const Y = Math.max(1, H);
-      for (let E = 0; E < C; E++) {
-        const P = new Float32Array(s * r);
+      if (u < 0) return new Float32Array(s * r).fill(1);
+      b = Math.max(0, b - y), W = Math.max(0, W - y), u = Math.min(s, u + y), z = Math.min(r, z + y);
+      let D = new Float32Array(s * r);
+      for (let $ = W; $ < z; $++)
+        for (let O = b; O < u; O++)
+          D[$ * s + O] = 1;
+      if (H <= 0) return D;
+      const B = Math.max(1, H);
+      for (let $ = 0; $ < C; $++) {
+        const O = new Float32Array(s * r);
         for (let U = 0; U < r; U++) {
-          const z = U * s, j = Y * 2 + 1;
-          let D = 0;
-          for (let ee = -Y; ee <= Y; ee++) D += V[z + Math.max(0, ee)];
+          const K = U * s, j = B * 2 + 1;
+          let Y = 0;
+          for (let ee = -B; ee <= B; ee++) Y += D[K + Math.max(0, ee)];
           for (let ee = 0; ee < s; ee++)
-            P[z + ee] = D / j, D -= V[z + Math.max(0, ee - Y)], D += V[z + Math.min(s - 1, ee + Y + 1)];
+            O[K + ee] = Y / j, Y -= D[K + Math.max(0, ee - B)], Y += D[K + Math.min(s - 1, ee + B + 1)];
         }
-        const K = new Float32Array(s * r);
+        const V = new Float32Array(s * r);
         for (let U = 0; U < s; U++) {
-          const z = Y * 2 + 1;
+          const K = B * 2 + 1;
           let j = 0;
-          for (let D = -Y; D <= Y; D++) j += P[Math.max(0, D) * s + U];
-          for (let D = 0; D < r; D++)
-            K[D * s + U] = j / z, j -= P[Math.max(0, D - Y) * s + U], j += P[Math.min(r - 1, D + Y + 1) * s + U];
+          for (let Y = -B; Y <= B; Y++) j += O[Math.max(0, Y) * s + U];
+          for (let Y = 0; Y < r; Y++)
+            V[Y * s + U] = j / K, j -= O[Math.max(0, Y - B) * s + U], j += O[Math.min(r - 1, Y + B + 1) * s + U];
         }
-        V = K;
+        D = V;
       }
-      for (let E = 0; E < V.length; E++) V[E] = Math.min(1, Math.max(0, V[E]));
-      return V;
+      for (let $ = 0; $ < D.length; $++) D[$] = Math.min(1, Math.max(0, D[$]));
+      return D;
     },
     []
-  ), St = se(
-    (t, g, s, r, y, p) => {
+  ), vt = ae(
+    (t, f, s, r, w, y) => {
       if (!("OffscreenCanvas" in globalThis)) {
-        He(t, g, s, r, 1), He(t, g, s, y, p);
+        Ie(t, f, s, r, 1), Ie(t, f, s, w, y);
         return;
       }
-      for (const te of [mt, J, je])
-        (!te.current || te.current.width !== g || te.current.height !== s) && (te.current = new OffscreenCanvas(g, s));
-      const H = mt.current, C = J.current, b = je.current, B = H.getContext("2d", { willReadFrequently: !0 }), m = C.getContext("2d", { willReadFrequently: !0 });
-      if (!B || !m) {
-        He(t, g, s, r, 1), He(t, g, s, y, p);
+      for (const re of [gt, pt, J])
+        (!re.current || re.current.width !== f || re.current.height !== s) && (re.current = new OffscreenCanvas(f, s));
+      const H = gt.current, C = pt.current, b = J.current, W = H.getContext("2d", { willReadFrequently: !0 }), u = C.getContext("2d", { willReadFrequently: !0 });
+      if (!W || !u) {
+        Ie(t, f, s, r, 1), Ie(t, f, s, w, y);
         return;
       }
-      B.clearRect(0, 0, g, s), m.clearRect(0, 0, g, s);
-      const G = wt.current, V = Oe.current;
-      G.forEach((te, Re) => {
-        const be = V[Re];
-        be && (lt(B, te.atlas, te.dest, be, r, 1), lt(m, te.atlas, te.dest, be, y, 1));
+      W.clearRect(0, 0, f, s), u.clearRect(0, 0, f, s);
+      const z = St.current, D = Re.current;
+      z.forEach((re, xe) => {
+        const we = D[xe];
+        we && (ut(W, re.atlas, re.dest, we, r, 1), ut(u, re.atlas, re.dest, we, w, 1));
       });
-      const Y = B.getImageData(0, 0, g, s), E = m.getImageData(0, 0, g, s), P = `${r}→${y}`;
-      let K = xe.current.get(P);
-      K || (K = Bt(Y.data, E.data, g, s), xe.current.set(P, K), xe.current.size > 200 && xe.current.delete(xe.current.keys().next().value));
-      const U = B.createImageData(g, s), z = Y.data, j = E.data, D = U.data;
-      for (let te = 0; te < g * s; te++) {
-        const Re = K[te] * p, be = 1 - Re, le = te * 4;
-        D[le] = z[le] * be + j[le] * Re, D[le + 1] = z[le + 1] * be + j[le + 1] * Re, D[le + 2] = z[le + 2] * be + j[le + 2] * Re, D[le + 3] = z[le + 3] * be + j[le + 3] * Re;
+      const B = W.getImageData(0, 0, f, s), $ = u.getImageData(0, 0, f, s), O = `${r}→${w}`;
+      let V = Le.current.get(O);
+      V || (V = Yt(B.data, $.data, f, s), Le.current.set(O, V), Le.current.size > 200 && Le.current.delete(Le.current.keys().next().value));
+      const U = W.createImageData(f, s), K = B.data, j = $.data, Y = U.data;
+      for (let re = 0; re < f * s; re++) {
+        const xe = V[re] * y, we = 1 - xe, he = re * 4;
+        Y[he] = K[he] * we + j[he] * xe, Y[he + 1] = K[he + 1] * we + j[he + 1] * xe, Y[he + 2] = K[he + 2] * we + j[he + 2] * xe, Y[he + 3] = K[he + 3] * we + j[he + 3] * xe;
       }
       const ee = b.getContext("2d");
-      ee && (ee.clearRect(0, 0, g, s), ee.putImageData(U, 0, 0), t.drawImage(b, 0, 0));
+      ee && (ee.clearRect(0, 0, f, s), ee.putImageData(U, 0, 0), t.drawImage(b, 0, 0));
     },
-    [Bt, He, lt]
-  ), qe = se(
-    (t, g, s, r) => {
-      var y;
-      It(t, g, s), (y = Pe.current) != null && y.complete && Pe.current.naturalWidth && Be(t, r);
+    [Yt, Ie, ut]
+  ), et = ae(
+    (t, f, s, r) => {
+      var w;
+      Ht(t, f, s), (w = Ee.current) != null && w.complete && Ee.current.naturalWidth && Ye(t, r);
     },
-    [It, Be]
-  ), At = se(
-    (t, g, s, r, y) => {
-      const p = de.current;
-      (!$.current || r === k) && (p != null && p.complete) && p.naturalWidth ? qe(t, g, s, y) : (Je(t, g, s), He(t, g, s, r, 1), Be(t, y)), Ye(t, g, s, r, y);
+    [Ht, Ye]
+  ), Tt = ae(
+    (t, f, s, r, w) => {
+      const y = ye.current;
+      (!Ne.current || r === te) && (y != null && y.complete) && y.naturalWidth ? et(t, f, s, w) : (Qe(t, f, s), Ie(t, f, s, r, 1), Ye(t, w)), De(t, f, s, r, w);
     },
-    [Je, Be, He, Ye, qe, k]
-  ), Qe = se(() => {
-    var be, le;
-    const t = we.current;
-    if (!t || !ue) return;
-    const g = ve.frames.length, s = typeof w == "number", r = t.getContext("2d");
+    [Qe, Ye, Ie, De, et, te]
+  ), tt = ae(() => {
+    var we, he;
+    const t = pe.current;
+    if (!t || !ne) return;
+    const f = be.frames.length, s = typeof p == "number", r = t.getContext("2d");
     if (!r) return;
-    const y = t.width, p = t.height, H = Ze(), C = i && !isNaN(i.currentTime) ? i.currentTime : 0, b = bt;
-    if (i && (i.paused || i.ended) && h.length > 0) {
-      const Z = de.current;
-      Z != null && Z.complete && Z.naturalWidth ? qe(r, y, p, b) : At(r, y, p, k, b), (be = Ue.current) == null || be.call(Ue, { audioTimeSec: C, syncOffsetSec: he, visemeIndex: k });
+    const w = t.width, y = t.height, H = qe(), C = a && !isNaN(a.currentTime) ? a.currentTime : 0, b = At;
+    if (a && (a.paused || a.ended) && h.length > 0) {
+      const Z = ye.current;
+      Z != null && Z.complete && Z.naturalWidth ? et(r, w, y, b) : Tt(r, w, y, te, b), (we = Oe.current) == null || we.call(Oe, { audioTimeSec: C, syncOffsetSec: ce, visemeIndex: te });
       return;
     }
-    if (!s && i && i.ended && h.length === 0) {
-      const Z = de.current;
-      Z != null && Z.complete && Z.naturalWidth ? (qe(r, y, p, b), Ye(r, y, p, k, b)) : (Je(r, y, p), He(r, y, p, k, 1), Be(r, b), Ye(r, y, p, k, b)), (le = Ue.current) == null || le.call(Ue, { audioTimeSec: C, syncOffsetSec: he, visemeIndex: k }), ae.current = requestAnimationFrame(Qe);
+    if (!s && a && a.ended && h.length === 0) {
+      const Z = ye.current;
+      Z != null && Z.complete && Z.naturalWidth ? (et(r, w, y, b), De(r, w, y, te, b)) : (Qe(r, w, y), Ie(r, w, y, te, 1), Ye(r, b), De(r, w, y, te, b)), (he = Oe.current) == null || he.call(Oe, { audioTimeSec: C, syncOffsetSec: ce, visemeIndex: te }), me.current = requestAnimationFrame(tt);
       return;
     }
-    if (Ue.current && performance.now() - Wt.current >= 100) {
-      Wt.current = performance.now();
-      const Z = Et();
-      Ue.current({ audioTimeSec: C, syncOffsetSec: he, visemeIndex: Z });
+    if (Oe.current && performance.now() - Bt.current >= 100) {
+      Bt.current = performance.now();
+      const Z = It();
+      Oe.current({ audioTimeSec: C, syncOffsetSec: ce, visemeIndex: Z });
     }
     if (s) {
-      const Z = Math.max(0, Math.min(w, g - 1));
-      At(r, y, p, Z, b), ae.current = requestAnimationFrame(Qe);
+      const Z = Math.max(0, Math.min(p, f - 1));
+      Tt(r, w, y, Z, b), me.current = requestAnimationFrame(tt);
       return;
     }
     if (h.length > 0 && o) {
-      const Z = Pt(), pe = Math.max(0, Math.min(Z.primaryIndex, g - 1)), et = Math.max(0, Math.min(Z.secondaryIndex, g - 1)), De = Math.max(0, Math.min(1, Z.primaryWeight));
-      pe !== Ae.current && (We.current = Ae.current >= 0 ? Ae.current : pe, at.current = H, Ae.current = pe), pe !== fe.current && (fe.current = pe, x == null || x(pe), Ot(pe));
-      const vt = H - at.current, Tt = Math.min(1, vt / In), Dt = Ct(Tt), Xt = !me.current && Dt < 1 && We.current >= 0 && We.current !== pe, rn = pe === k && De >= 0.9999 && !Xt, xt = de.current;
-      rn && (xt != null && xt.complete) && xt.naturalWidth ? (qe(r, y, p, b), Ye(r, y, p, 0, b)) : (Je(r, y, p), Xt ? St(r, y, p, We.current, pe, Dt) : De >= 0.9999 || me.current ? He(r, y, p, pe, 1) : St(r, y, p, et, pe, De), Be(r, b), Ye(r, y, p, pe, b)), ae.current = requestAnimationFrame(Qe);
+      const Z = Wt(), fe = Math.max(0, Math.min(Z.primaryIndex, f - 1)), nt = Math.max(0, Math.min(Z.secondaryIndex, f - 1)), Xe = Math.max(0, Math.min(1, Z.primaryWeight));
+      fe !== je.current && (ke.current = je.current >= 0 ? je.current : fe, Je.current = H, je.current = fe), fe !== Q.current && (Q.current = fe, T == null || T(fe), Pt(fe));
+      const xt = H - Je.current, Mt = Math.min(1, xt / _n), Xt = kt(Mt), Vt = !F.current && Xt < 1 && ke.current >= 0 && ke.current !== fe, sn = fe === te && Xe >= 0.9999 && !Vt, Ft = ye.current;
+      sn && (Ft != null && Ft.complete) && Ft.naturalWidth ? (et(r, w, y, b), De(r, w, y, 0, b)) : (Qe(r, w, y), Vt ? vt(r, w, y, ke.current, fe, Xt) : Xe >= 0.9999 || F.current ? Ie(r, w, y, fe, 1) : vt(r, w, y, nt, fe, Xe), Ye(r, b), De(r, w, y, fe, b)), me.current = requestAnimationFrame(tt);
       return;
     }
-    const m = Et();
-    m !== Se.current && (ge.current = Se.current >= 0 ? Se.current : m, Se.current = m, Ke.current = H);
-    const G = H - Ke.current, V = Math.min(1, G / $n), Y = Ct(V), E = Y < 1 && ge.current >= 0 && ge.current !== Se.current, P = `${ce.anchorX},${ce.anchorY},${ce.widthLeft},${ce.widthRight},${ce.heightAbove},${ce.heightBelow},${ce.heightAboveRow2 ?? ""},${ce.heightBelowRow2 ?? ""}`, K = P !== gt.current, U = ve.frames[m], z = U ? `${m}:${U.anchorX},${U.anchorY},${U.widthLeft},${U.widthRight},${U.heightAbove},${U.heightBelow}` : "", j = z !== pt.current, D = `${Me.x},${Me.y},${Me.width},${Me.height}|${re.frames.map((Z) => `${Z.x},${Z.y},${Z.width},${Z.height}`).join(";")}`, ee = D !== kt.current, te = b !== yt.current, Re = m !== fe.current || E || f || K || j || ee || te;
-    m !== fe.current && (x == null || x(m), Ot(m)), K && (gt.current = P, fe.current = -1), j && (pt.current = z), ee && (kt.current = D), te && (yt.current = b), fe.current = m, Re && (E && !me.current ? (Je(r, y, p), St(r, y, p, ge.current, Se.current, Y), Be(r, b), Ye(r, y, p, m, b)) : At(r, y, p, m, b)), ae.current = requestAnimationFrame(Qe);
+    const u = It();
+    u !== ue.current && (ct.current = ue.current >= 0 ? ue.current : u, ue.current = u, Ue.current = H);
+    const z = H - Ue.current, D = Math.min(1, z / In), B = kt(D), $ = B < 1 && ct.current >= 0 && ct.current !== ue.current, O = `${le.anchorX},${le.anchorY},${le.widthLeft},${le.widthRight},${le.heightAbove},${le.heightBelow},${le.heightAboveRow2 ?? ""},${le.heightBelowRow2 ?? ""}`, V = O !== Te.current, U = be.frames[u], K = U ? `${u}:${U.anchorX},${U.anchorY},${U.widthLeft},${U.widthRight},${U.heightAbove},${U.heightBelow}` : "", j = K !== yt.current, Y = `${ve.x},${ve.y},${ve.width},${ve.height}|${oe.frames.map((Z) => `${Z.x},${Z.y},${Z.width},${Z.height}`).join(";")}`, ee = Y !== wt.current, re = b !== bt.current, xe = u !== Q.current || $ || m || V || j || ee || re;
+    u !== Q.current && (T == null || T(u), Pt(u)), V && (Te.current = O, Q.current = -1), j && (yt.current = K), ee && (wt.current = Y), re && (bt.current = b), Q.current = u, xe && ($ && !F.current ? (Qe(r, w, y), vt(r, w, y, ct.current, ue.current, B), Ye(r, b), De(r, w, y, u, b)) : Tt(r, w, y, u, b)), me.current = requestAnimationFrame(tt);
   }, [
-    ue,
-    Et,
-    Pt,
-    Ze,
-    At,
-    Je,
-    Be,
-    qe,
-    He,
-    Ye,
+    ne,
     It,
-    f,
-    x,
-    ce,
-    Me,
-    re,
-    w,
+    Wt,
+    qe,
+    Tt,
+    Qe,
+    Ye,
+    et,
+    Ie,
+    De,
+    Ht,
+    m,
+    T,
+    le,
     ve,
+    oe,
+    p,
+    be,
     h.length,
     o,
-    bt,
-    he,
-    k,
-    St
+    At,
+    ce,
+    te,
+    vt
   ]);
-  ye(() => {
+  de(() => {
     if (!n) {
-      de.current = null;
+      ye.current = null;
       return;
     }
     const t = new Image();
     t.crossOrigin = "";
-    const g = n.startsWith("/") ? `${st}${n}` : n;
+    const f = n.startsWith("/") ? `${at}${n}` : n;
     return t.onload = () => {
-      de.current = t, fe.current = -1;
+      ye.current = t, Q.current = -1;
     }, t.onerror = () => {
-      de.current = null;
-    }, t.src = g, () => {
-      de.current = null;
+      ye.current = null;
+    }, t.src = f, () => {
+      ye.current = null;
     };
   }, [n]);
-  const nn = it.map((t) => t.atlas.imageUrl).join("|");
-  return ye(() => {
-    ne(!1);
+  const rn = lt.map((t) => t.atlas.imageUrl).join("|");
+  return de(() => {
+    Pe(!1);
     let t = !1;
-    const g = new Image(), s = new Image();
-    g.crossOrigin = "", s.crossOrigin = "";
-    const r = e ?? Gt, y = new Promise((m, G) => {
-      g.onload = () => {
-        t || (Ge({ width: g.naturalWidth, height: g.naturalHeight }), m());
-      }, g.onerror = () => {
-        t || G(new Error(`Failed to load ${r}`));
-      }, g.src = r;
-    }), p = wt.current, H = p.map(() => {
-      const m = new Image();
-      return m.crossOrigin = "", m;
-    }), C = p.map((m, G) => {
-      const V = H[G], Y = m.atlas.imageUrl.startsWith("/") ? `${st}${m.atlas.imageUrl}` : m.atlas.imageUrl;
-      return new Promise((E, P) => {
-        const K = (U, z) => {
-          V.onload = () => E(), V.onerror = () => {
-            t || (!z && !T && G === 0 && Y !== Lt ? (V.src = Lt, K(Lt, !0)) : P(new Error(`Failed to load ${m.atlas.imageUrl}`)));
-          }, V.src = U;
+    const f = new Image(), s = new Image();
+    f.crossOrigin = "", s.crossOrigin = "";
+    const r = e ?? jt, w = new Promise((u, z) => {
+      f.onload = () => {
+        t || (ft({ width: f.naturalWidth, height: f.naturalHeight }), u());
+      }, f.onerror = () => {
+        t || z(new Error(`Failed to load ${r}`));
+      }, f.src = r;
+    }), y = St.current, H = y.map(() => {
+      const u = new Image();
+      return u.crossOrigin = "", u;
+    }), C = y.map((u, z) => {
+      const D = H[z], B = u.atlas.imageUrl.startsWith("/") ? `${at}${u.atlas.imageUrl}` : u.atlas.imageUrl;
+      return new Promise(($, O) => {
+        const V = (U, K) => {
+          D.onload = () => $(), D.onerror = () => {
+            t || (!K && !M && z === 0 && B !== Ct ? (D.src = Ct, V(Ct, !0)) : O(new Error(`Failed to load ${u.atlas.imageUrl}`)));
+          }, D.src = U;
         };
-        K(Y, !1);
+        V(B, !1);
       });
-    }), b = re.imageUrl.startsWith("/") ? `${st}${re.imageUrl}` : re.imageUrl, B = new Promise((m, G) => {
+    }), b = oe.imageUrl.startsWith("/") ? `${at}${oe.imageUrl}` : oe.imageUrl, W = new Promise((u, z) => {
       s.onload = () => {
-        m();
+        u();
       }, s.onerror = () => {
-        t || G(new Error(`Failed to load ${re.imageUrl}`));
+        t || z(new Error(`Failed to load ${oe.imageUrl}`));
       }, s.src = b;
     });
-    return y.then(() => {
+    return w.then(() => {
       if (!t)
-        return Ce.current = g, Ne(null), Promise.all(C);
+        return He.current = f, Ae(null), Promise.all(C);
     }).then(() => {
       if (!t)
-        return Oe.current = H, $e(null), B.then(() => {
-          t || (Pe.current = s, yt.current = -1, dt(null));
-        }).catch((m) => {
-          console.debug("[TalkyHeads] Eye spritesheet not found (optional):", (m == null ? void 0 : m.message) ?? m), Pe.current = null;
+        return Re.current = H, ze(null), W.then(() => {
+          t || (Ee.current = s, bt.current = -1, Fe(null));
+        }).catch((u) => {
+          console.debug("[TalkyHeads] Eye spritesheet not found (optional):", (u == null ? void 0 : u.message) ?? u), Ee.current = null;
         });
     }).then(() => {
-      t || ne(!0);
-    }).catch((m) => {
-      t || (Ce.current ? ($e(m instanceof Error ? m.message : String(m)), ne(!0)) : Ne(m instanceof Error ? m.message : String(m)));
+      t || Pe(!0);
+    }).catch((u) => {
+      t || (He.current ? (ze(u instanceof Error ? u.message : String(u)), Pe(!0)) : Ae(u instanceof Error ? u.message : String(u)));
     }), () => {
-      t = !0, Ce.current = null, Oe.current = [], Pe.current = null;
+      t = !0, He.current = null, Re.current = [], Ee.current = null;
     };
-  }, [nn, re.imageUrl, e]), ye(() => {
-    Q == null || Q(ue);
-  }, [ue, Q]), ye(() => {
-    if (!ue || !ke) return;
-    const t = we.current;
+  }, [rn, oe.imageUrl, e]), de(() => {
+    ge == null || ge(ne);
+  }, [ne, ge]), de(() => {
+    if (!ne || !Be) return;
+    const t = pe.current;
     if (!t) return;
-    const g = u ?? ke.width, s = l ?? ke.height;
-    return (t.width !== g || t.height !== s) && (t.width = g, t.height = s, fe.current = -1), Fe.current && (Fe.current.style.aspectRatio = c !== "circle" ? `${g} / ${s}` : ""), ft.current = performance.now(), yt.current = -1, ae.current = requestAnimationFrame(Qe), () => cancelAnimationFrame(ae.current);
-  }, [ue, ke, u, l, c, Qe]), ye(() => {
-    f && (ft.current = performance.now(), fe.current = -1);
-  }, [f]), Le ? /* @__PURE__ */ Ee("div", { className: `flex items-center justify-center bg-gray-200 text-red-600 text-sm p-4 ${N}`, children: Le }) : /* @__PURE__ */ Xe(
+    const f = d ?? Be.width, s = l ?? Be.height;
+    return (t.width !== f || t.height !== s) && (t.width = f, t.height = s, Q.current = -1), Se.current && (Se.current.style.aspectRatio = c !== "circle" ? `${f} / ${s}` : ""), Ce.current = performance.now(), bt.current = -1, me.current = requestAnimationFrame(tt), () => cancelAnimationFrame(me.current);
+  }, [ne, Be, d, l, c, tt]), de(() => {
+    m && (Ce.current = performance.now(), Q.current = -1);
+  }, [m]), _e ? /* @__PURE__ */ Me("div", { className: `flex items-center justify-center bg-gray-200 text-red-600 text-sm p-4 ${N}`, style: ie, children: _e }) : /* @__PURE__ */ Ve(
     "div",
     {
-      ref: Fe,
+      ref: Se,
       className: `relative w-full min-h-[80px] rounded-lg overflow-hidden ${N}`,
       style: {
         position: "relative",
@@ -1173,13 +1174,14 @@ function _n({
         minHeight: "80px",
         overflow: "hidden",
         backgroundColor: "transparent",
-        ...c === "circle" ? { borderRadius: "50%" } : {}
+        ...c === "circle" ? { borderRadius: "50%" } : {},
+        ...ie
       },
       children: [
-        /* @__PURE__ */ Ee(
+        /* @__PURE__ */ Me(
           "canvas",
           {
-            ref: we,
+            ref: pe,
             className: "absolute inset-0 w-full h-full block",
             style: {
               position: "absolute",
@@ -1196,7 +1198,7 @@ function _n({
             "aria-label": "Talking head avatar"
           }
         ),
-        v && /* @__PURE__ */ Ee(
+        G && /* @__PURE__ */ Me(
           "div",
           {
             className: "absolute inset-0 pointer-events-none select-none",
@@ -1205,14 +1207,14 @@ function _n({
               position: "absolute",
               inset: 0,
               zIndex: 1,
-              opacity: ue ? 0 : 1,
+              opacity: ne ? 0 : 1,
               transition: "opacity 200ms ease",
               pointerEvents: "none"
             },
-            children: /* @__PURE__ */ Ee(
+            children: /* @__PURE__ */ Me(
               "img",
               {
-                src: v,
+                src: G,
                 alt: "",
                 draggable: !1,
                 style: {
@@ -1227,42 +1229,42 @@ function _n({
             )
           }
         ),
-        f && /* @__PURE__ */ Xe(
+        m && /* @__PURE__ */ Ve(
           "div",
           {
             className: "absolute top-1 left-1 bg-black/70 text-green-400 text-xs font-mono px-2 py-1 rounded",
             style: { position: "absolute", top: 4, left: 4, zIndex: 10, fontSize: 11, fontFamily: "monospace", background: "rgba(0,0,0,0.7)", color: "#4ade80", padding: "2px 6px", borderRadius: 4 },
             children: [
               "mouth: ",
-              en,
+              tn,
               " | eye: ",
-              ((Yt = re.frames[bt]) == null ? void 0 : Yt.state) ?? "?",
+              ((Dt = oe.frames[At]) == null ? void 0 : Dt.state) ?? "?",
               " (",
-              bt,
+              At,
               ")"
             ]
           }
         ),
-        Te && /* @__PURE__ */ Xe(
+        We && /* @__PURE__ */ Ve(
           "div",
           {
             className: "absolute bottom-1 left-1 right-1 bg-amber-800/90 text-amber-100 text-xs px-2 py-1 rounded text-center",
             style: { position: "absolute", bottom: 4, left: 4, right: 4, zIndex: 10, fontSize: 11, background: "rgba(120,53,15,0.9)", color: "#fef3c7", padding: "4px 8px", borderRadius: 4, textAlign: "center" },
             children: [
               "Mouth image failed: check ",
-              /* @__PURE__ */ Ee("code", { style: { background: "rgba(69,26,3,0.5)", padding: "0 2px" }, children: ve.imageUrl }),
+              /* @__PURE__ */ Me("code", { style: { background: "rgba(69,26,3,0.5)", padding: "0 2px" }, children: be.imageUrl }),
               " in public/"
             ]
           }
         ),
-        Ie && /* @__PURE__ */ Xe(
+        Ge && /* @__PURE__ */ Ve(
           "div",
           {
             className: "absolute bottom-8 left-1 right-1 bg-blue-900/90 text-blue-100 text-xs px-2 py-1 rounded text-center",
             style: { position: "absolute", bottom: 36, left: 4, right: 4, zIndex: 10, fontSize: 11, background: "rgba(30,58,138,0.9)", color: "#dbeafe", padding: "4px 8px", borderRadius: 4, textAlign: "center" },
             children: [
               "Eyes image failed: check ",
-              /* @__PURE__ */ Ee("code", { style: { background: "rgba(23,37,84,0.5)", padding: "0 2px" }, children: re.imageUrl }),
+              /* @__PURE__ */ Me("code", { style: { background: "rgba(23,37,84,0.5)", padding: "0 2px" }, children: oe.imageUrl }),
               " in public/"
             ]
           }
@@ -1271,29 +1273,29 @@ function _n({
     }
   );
 }
-function Nt(e, n, a) {
-  const c = e ? `${e}/` : "", i = c && n.startsWith(c) ? n.slice(c.length) : n;
-  return `${a}/${i}`;
+function Ut(e, n, i) {
+  const c = e ? `${e}/` : "", a = c && n.startsWith(c) ? n.slice(c.length) : n;
+  return `${i}/${a}`;
 }
-function Hn(e, n) {
-  const a = Nt(e.group ?? "", e.base.file, n), c = e.parts.map((o) => {
-    const u = o.atlasPages[0];
-    if (!u) return null;
-    const l = o.bboxOnBase, { tileW: f, tileH: d } = u, A = Math.round((f - l.w) / 2), T = Math.round((d - l.h) / 2), I = Nt(e.group ?? "", u.file, n), w = e.frames.map((W) => {
-      const X = W.parts.find((S) => S.partIndex === o.partIndex), M = X ? X.atlasX + A : 0, O = X ? X.atlasY + T : 0;
+function Ln(e, n) {
+  const i = Ut(e.group ?? "", e.base.file, n), c = e.parts.map((o) => {
+    const d = o.atlasPages[0];
+    if (!d) return null;
+    const l = o.bboxOnBase, { tileW: m, tileH: g } = d, A = Math.round((m - l.w) / 2), M = Math.round((g - l.h) / 2), L = Ut(e.group ?? "", d.file, n), p = e.frames.map((P) => {
+      const X = P.parts.find((S) => S.partIndex === o.partIndex), x = X ? X.atlasX + A : 0, k = X ? X.atlasY + M : 0;
       return {
-        anchorX: M + Math.floor(l.w / 2),
-        anchorY: O,
+        anchorX: x + Math.floor(l.w / 2),
+        anchorY: k,
         widthLeft: Math.floor(l.w / 2),
         widthRight: Math.ceil(l.w / 2),
         heightAbove: 0,
         heightBelow: l.h,
-        viseme: W.imageStem,
-        phonemes: W.imageStem
+        viseme: P.imageStem,
+        phonemes: P.imageStem
       };
     });
-    if (w.length === 0) return null;
-    const x = {
+    if (p.length === 0) return null;
+    const T = {
       anchorX: l.x + Math.floor(l.w / 2),
       anchorY: l.y,
       widthLeft: Math.floor(l.w / 2),
@@ -1301,193 +1303,200 @@ function Hn(e, n) {
       heightAbove: 0,
       heightBelow: l.h
     };
-    return { atlasConfig: { imageUrl: I, frames: w }, dest: x };
+    return { atlasConfig: { imageUrl: L, frames: p }, dest: T };
   }).filter((o) => o !== null);
   if (c.length === 0) return null;
-  let i = null, h = null;
+  let a = null, h = null;
   if (e.eyes) {
-    const o = e.eyes, u = /* @__PURE__ */ new Set(["open", "closed", "half", "smile", "surprised"]), l = o.states.filter((f) => u.has(f.state)).map((f) => ({ x: f.x, y: f.y, width: f.width, height: f.height, state: f.state }));
-    l.length > 0 && (i = {
-      imageUrl: Nt(e.group ?? "", o.file, n),
+    const o = e.eyes, d = /* @__PURE__ */ new Set(["open", "closed", "half", "smile", "surprised"]), l = o.states.filter((m) => d.has(m.state)).map((m) => ({ x: m.x, y: m.y, width: m.width, height: m.height, state: m.state }));
+    l.length > 0 && (a = {
+      imageUrl: Ut(e.group ?? "", o.file, n),
       frames: l
     }, h = { x: o.destX, y: o.destY, width: o.frameWidth, height: o.frameHeight });
   }
-  return { overlays: c, baseImageUrl: a, eyeAtlasConfig: i, eyeDestRect: h };
+  return { overlays: c, baseImageUrl: i, eyeAtlasConfig: a, eyeDestRect: h };
 }
-const Ln = sn(
+const Nn = on(
   function({
     avatarDir: n = "/avatars/Lucy",
-    state: a = "IDLE",
+    state: i = "IDLE",
     className: c = "",
-    debug: i = !1,
-    syncOffsetMs: h = 0,
-    shape: o = "square",
-    restImageScale: u = 1,
-    disableBlending: l = !1,
-    blinkEnabled: f = !0,
-    onSpeakingChange: d
-  }, A) {
-    const [T, I] = q(null), [w, x] = q(null), [W, X] = q(null), [M, O] = q(null), [S, R] = q(!1), [L, _] = q(u), [N, oe] = q(null), [Q, he] = q(null), [ie, v] = q(!1), k = F(null), [we, Fe] = q(null), [ue, ne] = q([]), [Le, Ne] = q(!1), Te = F(null), $e = F(null), Ie = F(null), dt = F(null), ke = F(null), Ge = F(!1), Ce = F(!1);
-    ye(() => {
-      dt.current = M;
-    }, [M]), ye(() => {
-      ke.current = T;
-    }, [T]), ye(() => {
-      Ge.current = ie;
-    }, [ie]), ye(() => {
-      Ce.current = S;
-    }, [S]);
-    const de = se(() => {
-      $e.current !== null && (clearTimeout($e.current), $e.current = null);
+    style: a,
+    debug: h = !1,
+    syncOffsetMs: o = 0,
+    shape: d = "square",
+    restImageScale: l = 1,
+    disableBlending: m = !1,
+    blinkEnabled: g = !0,
+    onSpeakingChange: A,
+    onError: M
+  }, L) {
+    const [p, T] = q(null), [P, X] = q(null), [x, k] = q(null), [S, E] = q(null), [I, _] = q(!1), [N, ie] = q(l), [se, ge] = q(null), [ce, v] = q(null), [G, te] = q(!1), pe = R(null), [Se, ne] = q(null), [Pe, _e] = q([]), [Ae, We] = q(!1), ze = R(null), Ge = R(null), Fe = R(null), Be = R(null), ft = R(null), He = R(!1), ye = R(!1);
+    de(() => {
+      Be.current = S;
+    }, [S]), de(() => {
+      ft.current = p;
+    }, [p]), de(() => {
+      He.current = G;
+    }, [G]), de(() => {
+      ye.current = I;
+    }, [I]);
+    const Re = ae(() => {
+      Ge.current !== null && (clearTimeout(Ge.current), Ge.current = null);
     }, []);
-    ye(() => {
+    de(() => {
       const J = new Audio();
-      return k.current = J, Fe(J), J.onended = () => {
-        de(), Ne(!1), ne([]);
+      return pe.current = J, ne(J), J.onended = () => {
+        Re(), We(!1), _e([]);
       }, () => {
-        J.pause(), k.current = null;
+        J.pause(), pe.current = null;
       };
-    }, [de]), ye(() => {
+    }, [Re]), de(() => {
+      x && M && M(x);
+    }, [x, M]), de(() => {
       let J = !1;
-      X(null), I(null), x(null), O(null), oe(null), he(null), R(!0), Ie.current = null;
-      const je = fetch(`${n}/sprite_manifest.json`).then(($) => {
-        if (!$.ok) throw new Error(`HTTP ${$.status} loading sprite_manifest.json`);
-        return $.json();
-      }), xe = fetch(`${n}/viseme_map.json`).then(($) => $.ok ? $.json() : null).catch(() => null);
-      return Promise.all([je, xe]).then(([$, me]) => {
+      k(null), T(null), X(null), E(null), ge(null), v(null), _(!0), Fe.current = null;
+      const Le = fetch(`${n}/sprite_manifest.json`).then((F) => {
+        if (!F.ok) throw new Error(`HTTP ${F.status} loading sprite_manifest.json`);
+        return F.json();
+      }), Ne = fetch(`${n}/viseme_map.json`).then((F) => F.ok ? F.json() : null).catch(() => null);
+      return Promise.all([Le, Ne]).then(([F, me]) => {
         if (J) return;
-        const ae = Hn($, n);
-        if (!ae) {
-          X("sprite_manifest.json has no valid parts (empty atlas?)");
+        const Q = Ln(F, n);
+        if (!Q) {
+          k("sprite_manifest.json has no valid parts (empty atlas?)");
           return;
         }
-        I(ae.overlays.map((fe) => ({ atlas: fe.atlasConfig, dest: fe.dest }))), x(ae.baseImageUrl), typeof $.restImageScale == "number" ? _($.restImageScale) : _(u), ae.eyeAtlasConfig && oe(ae.eyeAtlasConfig), ae.eyeDestRect && he(ae.eyeDestRect), me && O(me);
-      }).catch(($) => {
-        J || X($ instanceof Error ? $.message : String($));
+        T(Q.overlays.map((Ce) => ({ atlas: Ce.atlasConfig, dest: Ce.dest }))), X(Q.baseImageUrl), typeof F.restImageScale == "number" ? ie(F.restImageScale) : ie(l), Q.eyeAtlasConfig && ge(Q.eyeAtlasConfig), Q.eyeDestRect && v(Q.eyeDestRect), me && E(me);
+      }).catch((F) => {
+        J || k(F instanceof Error ? F.message : String(F));
       }).finally(() => {
-        J || R(!1);
+        J || _(!1);
       }), () => {
         J = !0;
       };
     }, [n]);
-    const Oe = se(() => {
-      Te.current && (URL.revokeObjectURL(Te.current), Te.current = null);
-    }, []), Pe = se((J) => {
-      v(J), J || console.debug("[TalkyHeads] canvas assets not ready yet; deferring playback if needed");
+    const Ee = ae(() => {
+      ze.current && (URL.revokeObjectURL(ze.current), ze.current = null);
+    }, []), gt = ae((J) => {
+      te(J), J || console.debug("[TalkyHeads] canvas assets not ready yet; deferring playback if needed");
     }, []);
-    ye(() => {
-      if (ie && !S && Ie.current) {
+    de(() => {
+      if (G && !I && Fe.current) {
         console.debug("[TalkyHeads] canvas assets ready, resuming deferred playback");
-        const J = Ie.current;
-        Ie.current = null, J();
+        const J = Fe.current;
+        Fe.current = null, J();
       }
-    }, [ie, S]), on(A, () => ({
+    }, [G, I]), an(L, () => ({
       avatarDir: n,
-      speak(J, je, xe) {
-        const $ = k.current;
-        if (!$) return;
-        $.pause(), de(), Oe(), Ie.current = null;
-        const me = URL.createObjectURL(je);
-        Te.current = me;
-        const ae = (ge) => {
-          const Se = ge.length > 0 ? ge[ge.length - 1].t : 0, Ke = () => {
-            ne(ge), Ne(!0), console.debug(`[TalkyHeads] speak: startPlayback events=${ge.length} lastT=${Se.toFixed(3)}s ready=${ie} t=${performance.now().toFixed(1)}ms`), $e.current = setTimeout(() => {
-              Ne(!1), ne([]), $e.current = null;
-            }, Se * 1e3 + 200), $.play().catch(console.warn);
+      speak(J, Le, Ne) {
+        const F = pe.current;
+        if (!F) return;
+        F.pause(), Re(), Ee(), Fe.current = null;
+        const me = URL.createObjectURL(Le);
+        ze.current = me;
+        const Q = (ue) => {
+          const Ue = ue.length > 0 ? ue[ue.length - 1].t : 0, ke = () => {
+            _e(ue), We(!0), console.debug(`[TalkyHeads] speak: startPlayback events=${ue.length} lastT=${Ue.toFixed(3)}s ready=${G} t=${performance.now().toFixed(1)}ms`), Ge.current = setTimeout(() => {
+              We(!1), _e([]), Ge.current = null;
+            }, Ue * 1e3 + 200), F.play().catch(console.warn);
           };
-          if (!Ge.current || Ce.current) {
-            console.debug("[TalkyHeads] speak: deferring playback until canvas + viseme map ready"), Ie.current = Ke;
+          if (!He.current || ye.current) {
+            console.debug("[TalkyHeads] speak: deferring playback until canvas + viseme map ready"), Fe.current = ke;
             return;
           }
-          Ke();
-        }, fe = () => {
-          var at;
-          const ge = dt.current, Se = ke.current ?? T;
-          if (xe && ge) {
-            $.src = me;
-            const Ae = Mn(xe, ge);
-            ae(Ae);
+          ke();
+        }, Ce = () => {
+          var je;
+          const ue = Be.current, Ue = ft.current ?? p;
+          if (Ne && ue) {
+            F.src = me;
+            const Te = Fn(Ne, ue);
+            Q(Te);
             return;
           }
-          if (xe) {
-            $.src = me;
-            const Ae = En(xe, An);
-            ae(Ae);
+          if (Ne) {
+            F.src = me;
+            const Te = $n(Ne, vn);
+            Q(Te);
             return;
           }
-          if (ge) {
-            $.src = me;
-            const Ae = () => {
-              const gt = isFinite($.duration) && $.duration > 0 ? $.duration : 2, pt = Fn(J, gt, ge);
-              ae(pt), $.removeEventListener("loadedmetadata", Ae);
+          if (ue) {
+            F.src = me;
+            const Te = () => {
+              const yt = isFinite(F.duration) && F.duration > 0 ? F.duration : 2, wt = Rn(J, yt, ue);
+              Q(wt), F.removeEventListener("loadedmetadata", Te);
             };
-            $.addEventListener("loadedmetadata", Ae), $.load();
+            F.addEventListener("loadedmetadata", Te), F.load();
             return;
           }
-          const Ke = (at = Se == null ? void 0 : Se[0]) == null ? void 0 : at.atlas.frames.length;
-          $.src = me;
-          const We = () => {
-            const Ae = isFinite($.duration) && $.duration > 0 ? $.duration : 2;
-            ae(wn(J, Ae, Ke)), $.removeEventListener("loadedmetadata", We);
+          const ke = (je = Ue == null ? void 0 : Ue[0]) == null ? void 0 : je.atlas.frames.length;
+          F.src = me;
+          const Je = () => {
+            const Te = isFinite(F.duration) && F.duration > 0 ? F.duration : 2;
+            Q(bn(J, Te, ke)), F.removeEventListener("loadedmetadata", Je);
           };
-          $.readyState >= HTMLMediaElement.HAVE_METADATA ? We() : $.addEventListener("loadedmetadata", We);
+          F.readyState >= HTMLMediaElement.HAVE_METADATA ? Je() : F.addEventListener("loadedmetadata", Je);
         };
-        if (!Ge.current || Ce.current) {
-          console.debug("[TalkyHeads] speak: waiting for canvas/viseme-map readiness", { canvasReady: Ge.current, visemeMapLoading: Ce.current }), Ie.current = fe;
+        if (!He.current || ye.current) {
+          console.debug("[TalkyHeads] speak: waiting for canvas/viseme-map readiness", { canvasReady: He.current, visemeMapLoading: ye.current }), Fe.current = Ce;
           return;
         }
-        fe();
+        Ce();
       },
       stop() {
         var J;
-        de(), (J = k.current) == null || J.pause(), Ne(!1), ne([]), Oe(), Ie.current = null;
+        Re(), (J = pe.current) == null || J.pause(), We(!1), _e([]), Ee(), Fe.current = null;
       }
-    }), [T, M, Oe, de, n]), ye(() => {
-      d && d(Le);
-    }, [Le, d]);
-    const mt = a === "SPEAKING" || Le;
-    return W ? /* @__PURE__ */ Xe(
+    }), [p, S, Ee, Re, n]), de(() => {
+      A && A(Ae);
+    }, [Ae, A]);
+    const pt = i === "SPEAKING" || Ae;
+    return x ? /* @__PURE__ */ Ve(
       "div",
       {
         className: `flex items-center justify-center bg-gray-200 text-red-600 text-sm p-4 rounded ${c}`,
+        style: a,
         children: [
           "TalkingHead error: ",
-          W
+          x
         ]
       }
-    ) : !T || !w ? /* @__PURE__ */ Ee(
+    ) : !p || !P ? /* @__PURE__ */ Me(
       "div",
       {
         className: `flex items-center justify-center bg-gray-100 text-gray-400 text-sm p-4 rounded ${c}`,
+        style: a,
         children: "Loading avatar…"
       }
-    ) : /* @__PURE__ */ Ee(
-      _n,
+    ) : /* @__PURE__ */ Me(
+      Hn,
       {
-        baseImageUrl: w,
+        baseImageUrl: P,
         restImageUrl: `${n}/rest.webp`,
-        restImageScale: L,
-        shape: o,
-        audioEl: we,
-        visemeEvents: ue,
-        speaking: mt,
-        overlays: T,
-        visemeMap: M ?? void 0,
-        debug: i,
-        syncOffsetMs: h,
+        restImageScale: N,
+        shape: d,
+        audioEl: Se,
+        visemeEvents: Pe,
+        speaking: pt,
+        overlays: p,
+        visemeMap: S ?? void 0,
+        debug: h,
+        syncOffsetMs: o,
         className: c,
-        disableBlending: l,
-        eyeAtlas: N ?? void 0,
-        eyeDest: Q ?? void 0,
-        blinkEnabled: f,
-        onAssetsReady: Pe
+        style: a,
+        disableBlending: m,
+        eyeAtlas: se ?? void 0,
+        eyeDest: ce ?? void 0,
+        blinkEnabled: g,
+        onAssetsReady: gt
       }
     );
   }
-), Nn = "https://api.elevenlabs.io/v1";
-async function Cn(e, n, a, c = "mp3", i = 1, h) {
-  var W, X;
-  const u = `${Nn}/text-to-speech/${a}/with-timestamps?output_format=${c === "mp3" ? "mp3_44100_128" : "pcm_44100"}`, l = await fetch(u, {
+), Cn = "https://api.elevenlabs.io/v1";
+async function Un(e, n, i, c = "mp3", a = 1, h) {
+  var P, X;
+  const d = `${Cn}/text-to-speech/${i}/with-timestamps?output_format=${c === "mp3" ? "mp3_44100_128" : "pcm_44100"}`, l = await fetch(d, {
     method: "POST",
     headers: {
       "xi-api-key": n,
@@ -1496,111 +1505,111 @@ async function Cn(e, n, a, c = "mp3", i = 1, h) {
     body: JSON.stringify({
       text: e.slice(0, 4096),
       model_id: "eleven_multilingual_v2",
-      voice_settings: { speed: Math.max(0.5, Math.min(2, i)) }
+      voice_settings: { speed: Math.max(0.5, Math.min(2, a)) }
     }),
     signal: h
   });
   if (!l.ok) {
-    const M = await l.text().catch(() => l.statusText);
-    throw new Error(`ElevenLabs TTS failed (${l.status}): ${M}`);
+    const x = await l.text().catch(() => l.statusText);
+    throw new Error(`ElevenLabs TTS failed (${l.status}): ${x}`);
   }
-  const f = await l.json(), d = atob(f.audio_base64), A = new Uint8Array(d.length);
-  for (let M = 0; M < d.length; M++) A[M] = d.charCodeAt(M);
-  const T = c === "mp3" ? "audio/mpeg" : "audio/wav", I = new Blob([A], { type: T }), w = f.alignment ?? f.normalized_alignment ?? null, x = w && ((W = w.characters) == null ? void 0 : W.length) > 0 && ((X = w.character_start_times_seconds) == null ? void 0 : X.length) === w.characters.length ? w : null;
-  return x ? (console.group(`[TalkyHeads] ElevenLabs alignment — "${e.slice(0, 60)}${e.length > 60 ? "…" : ""}"`), console.table(
-    x.characters.map((M, O) => {
-      var S, R;
+  const m = await l.json(), g = atob(m.audio_base64), A = new Uint8Array(g.length);
+  for (let x = 0; x < g.length; x++) A[x] = g.charCodeAt(x);
+  const M = c === "mp3" ? "audio/mpeg" : "audio/wav", L = new Blob([A], { type: M }), p = m.alignment ?? m.normalized_alignment ?? null, T = p && ((P = p.characters) == null ? void 0 : P.length) > 0 && ((X = p.character_start_times_seconds) == null ? void 0 : X.length) === p.characters.length ? p : null;
+  return T ? (console.group(`[TalkyHeads] ElevenLabs alignment — "${e.slice(0, 60)}${e.length > 60 ? "…" : ""}"`), console.table(
+    T.characters.map((x, k) => {
+      var S, E;
       return {
-        char: M,
-        start_s: (S = x.character_start_times_seconds[O]) == null ? void 0 : S.toFixed(3),
-        end_s: (R = x.character_end_times_seconds[O]) == null ? void 0 : R.toFixed(3)
+        char: x,
+        start_s: (S = T.character_start_times_seconds[k]) == null ? void 0 : S.toFixed(3),
+        end_s: (E = T.character_end_times_seconds[k]) == null ? void 0 : E.toFixed(3)
       };
     })
-  ), console.groupEnd()) : console.warn("[TalkyHeads] ElevenLabs returned no alignment — lip-sync will use text-based fallback."), { audioBlob: I, alignment: x };
+  ), console.groupEnd()) : console.warn("[TalkyHeads] ElevenLabs returned no alignment — lip-sync will use text-based fallback."), { audioBlob: L, alignment: T };
 }
-async function Un(e, n, a = "en-US-Neural2-F", c = "en-US", i = "mp3", h) {
-  const o = i === "mp3" ? "MP3" : "LINEAR16", u = `https://texttospeech.googleapis.com/v1/text:synthesize?key=${n}`, l = await fetch(u, {
+async function kn(e, n, i = "en-US-Neural2-F", c = "en-US", a = "mp3", h) {
+  const o = a === "mp3" ? "MP3" : "LINEAR16", d = `https://texttospeech.googleapis.com/v1/text:synthesize?key=${n}`, l = await fetch(d, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       input: { text: e.slice(0, 5e3) },
-      voice: { languageCode: c, name: a },
+      voice: { languageCode: c, name: i },
       audioConfig: { audioEncoding: o }
     }),
     signal: h
   });
   if (!l.ok) {
-    const w = await l.text().catch(() => l.statusText);
-    throw new Error(`Google TTS failed (${l.status}): ${w}`);
+    const p = await l.text().catch(() => l.statusText);
+    throw new Error(`Google TTS failed (${l.status}): ${p}`);
   }
-  const f = await l.json(), d = atob(f.audioContent), A = new Uint8Array(d.length);
-  for (let w = 0; w < d.length; w++) A[w] = d.charCodeAt(w);
-  const T = i === "mp3" ? "audio/mpeg" : "audio/wav";
-  return { audioBlob: new Blob([A], { type: T }), alignment: null };
+  const m = await l.json(), g = atob(m.audioContent), A = new Uint8Array(g.length);
+  for (let p = 0; p < g.length; p++) A[p] = g.charCodeAt(p);
+  const M = a === "mp3" ? "audio/mpeg" : "audio/wav";
+  return { audioBlob: new Blob([A], { type: M }), alignment: null };
 }
-async function kn(e, n, a = "elevenlabs", c, i = "mp3", h, o, u) {
-  var T;
+async function On(e, n, i = "elevenlabs", c, a = "mp3", h, o, d) {
+  var M;
   const l = { "Content-Type": "application/json" };
   o && (l["X-API-Key"] = o);
-  const f = n.replace(/\/$/, "");
-  if (a === "elevenlabs")
+  const m = n.replace(/\/$/, "");
+  if (i === "elevenlabs")
     try {
-      const I = performance.now(), w = await fetch(`${f}/tts-with-timestamps`, {
+      const L = performance.now(), p = await fetch(`${m}/tts-with-timestamps`, {
         method: "POST",
         headers: l,
-        body: JSON.stringify({ text: e, voice: c, format: i, speed: h }),
-        signal: u
-      }), x = performance.now(), W = w.headers.get("X-Cache") ?? "UNKNOWN";
-      if (w.ok) {
-        const X = await w.json();
+        body: JSON.stringify({ text: e, voice: c, format: a, speed: h }),
+        signal: d
+      }), T = performance.now(), P = p.headers.get("X-Cache") ?? "UNKNOWN";
+      if (p.ok) {
+        const X = await p.json();
         if (X.audio_base64) {
-          const M = performance.now(), O = atob(X.audio_base64), S = new Uint8Array(O.length);
-          for (let N = 0; N < O.length; N++) S[N] = O.charCodeAt(N);
-          const R = performance.now(), L = i === "mp3" ? "audio/mpeg" : "audio/wav", _ = X.alignment ?? null;
+          const x = performance.now(), k = atob(X.audio_base64), S = new Uint8Array(k.length);
+          for (let N = 0; N < k.length; N++) S[N] = k.charCodeAt(N);
+          const E = performance.now(), I = a === "mp3" ? "audio/mpeg" : "audio/wav", _ = X.alignment ?? null;
           return console.debug(
-            `[TalkyHeads] proxy /tts-with-timestamps [${W}] — fetch: ${(x - I).toFixed(0)}ms | decode: ${(R - M).toFixed(0)}ms | audio_b64_len: ${X.audio_base64.length} | align_chars: ${((T = _ == null ? void 0 : _.characters) == null ? void 0 : T.length) ?? "none"}`
+            `[TalkyHeads] proxy /tts-with-timestamps [${P}] — fetch: ${(T - L).toFixed(0)}ms | decode: ${(E - x).toFixed(0)}ms | audio_b64_len: ${X.audio_base64.length} | align_chars: ${((M = _ == null ? void 0 : _.characters) == null ? void 0 : M.length) ?? "none"}`
           ), _ ? (console.groupCollapsed(`[TalkyHeads] proxy alignment — "${e.slice(0, 60)}${e.length > 60 ? "…" : ""}"`), console.table(
-            _.characters.map((N, oe) => {
-              var Q, he;
+            _.characters.map((N, ie) => {
+              var se, ge;
               return {
                 char: N,
-                start_s: (Q = _.character_start_times_seconds[oe]) == null ? void 0 : Q.toFixed(3),
-                end_s: (he = _.character_end_times_seconds[oe]) == null ? void 0 : he.toFixed(3)
+                start_s: (se = _.character_start_times_seconds[ie]) == null ? void 0 : se.toFixed(3),
+                end_s: (ge = _.character_end_times_seconds[ie]) == null ? void 0 : ge.toFixed(3)
               };
             })
           ), console.groupEnd()) : console.warn("[TalkyHeads] proxy /tts-with-timestamps returned no alignment — lip-sync will use text-based fallback."), {
-            audioBlob: new Blob([S], { type: L }),
+            audioBlob: new Blob([S], { type: I }),
             alignment: _
           };
         }
       }
     } catch {
     }
-  const d = await fetch(`${f}/tts`, {
+  const g = await fetch(`${m}/tts`, {
     method: "POST",
     headers: l,
-    body: JSON.stringify({ text: e, provider: a, voice: c, format: i, speed: h }),
-    signal: u
+    body: JSON.stringify({ text: e, provider: i, voice: c, format: a, speed: h }),
+    signal: d
   });
-  if (!d.ok) {
-    const I = await d.text().catch(() => d.statusText);
-    throw new Error(`TTS proxy failed (${d.status}): ${I}`);
+  if (!g.ok) {
+    const L = await g.text().catch(() => g.statusText);
+    throw new Error(`TTS proxy failed (${g.status}): ${L}`);
   }
-  return { audioBlob: await d.blob(), alignment: null };
+  return { audioBlob: await g.blob(), alignment: null };
 }
-function On(e) {
-  const [n, a] = q(!1), [c, i] = q(null), h = F(null), o = se(() => {
+function Pn(e) {
+  const [n, i] = q(!1), [c, a] = q(null), h = R(null), o = ae(() => {
     var l;
-    (l = h.current) == null || l.abort(), h.current = null, a(!1);
+    (l = h.current) == null || l.abort(), h.current = null, i(!1);
   }, []);
-  return { synthesize: se(
+  return { synthesize: ae(
     async (l) => {
       o();
-      const f = new AbortController();
-      h.current = f, a(!0), i(null);
+      const m = new AbortController();
+      h.current = m, i(!0), a(null);
       try {
-        let d;
-        return e.mode === "proxy" ? d = await kn(
+        let g;
+        return e.mode === "proxy" ? g = await On(
           l,
           e.proxyUrl,
           e.provider ?? "elevenlabs",
@@ -1608,33 +1617,33 @@ function On(e) {
           "mp3",
           e.speed,
           e.apiKey,
-          f.signal
-        ) : e.provider === "elevenlabs" ? d = await Cn(
+          m.signal
+        ) : e.provider === "elevenlabs" ? g = await Un(
           l,
           e.apiKey,
           e.voice ?? "",
           "mp3",
           e.speed ?? 1,
-          f.signal
-        ) : d = await Un(
+          m.signal
+        ) : g = await kn(
           l,
           e.apiKey,
           e.voice,
           e.language,
           "mp3",
-          f.signal
-        ), a(!1), d;
-      } catch (d) {
-        if (d.name === "AbortError")
-          throw a(!1), d;
-        const A = d instanceof Error ? d.message : String(d);
-        throw i(A), a(!1), d;
+          m.signal
+        ), i(!1), g;
+      } catch (g) {
+        if (g.name === "AbortError")
+          throw i(!1), g;
+        const A = g instanceof Error ? g.message : String(g);
+        throw a(A), i(!1), g;
       }
     },
     [e, o]
   ), cancel: o, loading: n, error: c };
 }
-const nt = {
+const st = {
   root: {
     display: "flex",
     flexDirection: "column",
@@ -1678,91 +1687,91 @@ const nt = {
     marginTop: "2px"
   }
 };
-function Bn({
+function Yn({
   avatarDir: e = "/avatars/Lucy",
   ttsConfig: n,
-  placeholder: a = "Type something for the avatar to say…",
+  placeholder: i = "Type something for the avatar to say…",
   className: c = "",
-  style: i,
+  style: a,
   debug: h = !1,
   shape: o,
-  syncOffsetMs: u,
+  syncOffsetMs: d,
   disableBlending: l,
-  restImageScale: f
+  restImageScale: m
 }) {
-  const d = F(null), [A, T] = q(""), [I, w] = q("IDLE"), { synthesize: x, loading: W, error: X } = On(n), M = se((L) => {
-    w((_) => L ? "SPEAKING" : _ === "SPEAKING" ? "IDLE" : _);
-  }, []), O = async () => {
+  const g = R(null), [A, M] = q(""), [L, p] = q("IDLE"), { synthesize: T, loading: P, error: X } = Pn(n), x = ae((I) => {
+    p((_) => I ? "SPEAKING" : _ === "SPEAKING" ? "IDLE" : _);
+  }, []), k = async () => {
     var _;
-    const L = A.trim();
-    if (!(!L || W))
+    const I = A.trim();
+    if (!(!I || P))
       try {
-        w("THINKING");
-        const { audioBlob: N, alignment: oe } = await x(L);
-        w("SPEAKING"), (_ = d.current) == null || _.speak(L, N, oe);
+        p("THINKING");
+        const { audioBlob: N, alignment: ie } = await T(I);
+        p("SPEAKING"), (_ = g.current) == null || _.speak(I, N, ie);
       } catch {
-        w("IDLE");
+        p("IDLE");
       }
-  }, S = (L) => {
-    L.key === "Enter" && !L.shiftKey && (L.preventDefault(), O());
-  }, R = {
-    ...nt.speakBtn,
-    ...W || !A.trim() ? nt.speakBtnDisabled : {}
+  }, S = (I) => {
+    I.key === "Enter" && !I.shiftKey && (I.preventDefault(), k());
+  }, E = {
+    ...st.speakBtn,
+    ...P || !A.trim() ? st.speakBtnDisabled : {}
   };
-  return /* @__PURE__ */ Xe("div", { style: { ...nt.root, ...i }, className: c, children: [
-    /* @__PURE__ */ Ee(
-      Ln,
+  return /* @__PURE__ */ Ve("div", { style: { ...st.root, ...a }, className: c, children: [
+    /* @__PURE__ */ Me(
+      Nn,
       {
-        ref: d,
+        ref: g,
         avatarDir: e,
-        state: I,
+        state: L,
         debug: h,
         ...o !== void 0 && { shape: o },
-        ...u !== void 0 && { syncOffsetMs: u },
+        ...d !== void 0 && { syncOffsetMs: d },
         ...l !== void 0 && { disableBlending: l },
-        ...f !== void 0 && { restImageScale: f },
-        onSpeakingChange: M
+        ...m !== void 0 && { restImageScale: m },
+        onSpeakingChange: x
       }
     ),
-    /* @__PURE__ */ Xe("div", { style: nt.inputRow, children: [
-      /* @__PURE__ */ Ee(
+    /* @__PURE__ */ Ve("div", { style: st.inputRow, children: [
+      /* @__PURE__ */ Me(
         "textarea",
         {
           value: A,
-          onChange: (L) => T(L.target.value),
+          onChange: (I) => M(I.target.value),
           onKeyDown: S,
-          placeholder: a,
+          placeholder: i,
           rows: 2,
-          disabled: W,
+          disabled: P,
           style: {
-            ...nt.textarea,
-            opacity: W ? 0.6 : 1
+            ...st.textarea,
+            opacity: P ? 0.6 : 1
           }
         }
       ),
-      /* @__PURE__ */ Ee(
+      /* @__PURE__ */ Me(
         "button",
         {
-          onClick: O,
-          disabled: W || !A.trim(),
-          style: R,
-          children: W ? "…" : "Speak"
+          onClick: k,
+          disabled: P || !A.trim(),
+          style: E,
+          children: P ? "…" : "Speak"
         }
       )
     ] }),
-    X && /* @__PURE__ */ Xe("p", { style: nt.error, children: [
+    X && /* @__PURE__ */ Ve("p", { style: st.error, children: [
       "TTS error: ",
       X
     ] })
   ] });
 }
-function Yn(e, n, a) {
-  return n ? "SPEAKING" : e ? "THINKING" : a ? "LISTENING" : "IDLE";
+function Dn(e, n, i) {
+  return n ? "SPEAKING" : e ? "THINKING" : i ? "LISTENING" : "IDLE";
 }
 export {
-  Ln as TalkingHead,
-  Bn as TalkingHeadWithTTS,
-  Yn as deriveAvatarState,
-  On as useTTS
+  Nn as TalkingHead,
+  Yn as TalkingHeadWithTTS,
+  Dn as deriveAvatarState,
+  Pn as useTTS
 };
 //# sourceMappingURL=talky-heads-sdk.es.js.map
